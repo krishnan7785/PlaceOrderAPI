@@ -20,7 +20,7 @@ import com.salesforce.placeorder.vo.OpportunityVO;
 import com.salesforce.placeorder.vo.OrderVO;
 import com.salesforce.placeorder.vo.UserVO;
 
-public class LoadContractAndOrdersTest {
+public class LoadOrderProductsExistingOrder {
 	@Test
 	public void loadOrdersTest1() throws InterruptedException, ExecutionException, IOException {
 		String random =  "POAPI-"+UUID.randomUUID().toString();
@@ -79,7 +79,9 @@ public class LoadContractAndOrdersTest {
 		APIHelper helper = new APIHelper();
 		helper.initialize();
 		helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
-		helper.createOrders(cntr, order,65,2);
+		helper.createOrders(cntr, order,5,1);
+		String orderid = helper.getDetails().getRecords().get(0).getOrders().getRecords().get(0).getId();
+		helper.createOrderProducts(order, 5, orderid);
 		helper.finalize();
 	}
 }
