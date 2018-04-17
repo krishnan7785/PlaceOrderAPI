@@ -20,7 +20,7 @@ import com.salesforce.placeorder.vo.OpportunityVO;
 import com.salesforce.placeorder.vo.OrderVO;
 import com.salesforce.placeorder.vo.UserVO;
 
-public class LoadContractAndOrdersTest {
+public class LoadOrdersExisitingContractTest {
 	@Test
 	public void loadOrdersTest1() throws InterruptedException, ExecutionException, IOException {
 		String random =  "POAPI-"+UUID.randomUUID().toString();
@@ -71,6 +71,16 @@ public class LoadContractAndOrdersTest {
 				.withOrderStartDate("7/1/2018")
 				.withOrderTerm("12").withPoNumber("12345").withPoAmount("5000")
 				.withEvaluateRamp(false).build();
+		OrderVO addon = new OrderVOBuilder().withOpportunityName(random)
+				.withMarkForOrderTeamCreate(true)
+				.withShippingCity("San Francisco").withShippingCountry("US")
+				.withShippingStreet("1 Market Street").withShippingState("CA")
+				.withShippingZip("94105").withOrderStatus("Draft")
+				.withOrderType("Add").withCustomerPoRequired("N/A")
+				.withOrderSubtype("New")
+				.withOrderStartDate("7/1/2018")
+				.withOrderTerm("12").withPoNumber("12345").withPoAmount("5000")
+				.withEvaluateRamp(false).build();
 		UserVO  user = new UserVOBuilder().withUsername(Constants.ADMIN_USERNAME).withPassword(Constants.ADMIN_PASSWORD).build();
 		String pricebookentryid = Constants.DEFAULT_PRICEBOOKENTRY_ID;
 		String pricebook2id = Constants.DEFAULT_PRODUCT_ID;
@@ -79,7 +89,9 @@ public class LoadContractAndOrdersTest {
 		APIHelper helper = new APIHelper();
 		helper.initialize();
 		helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
-		helper.createOrders(cntr, order,65,2);
+		helper.createOrders(cntr, order,10,1);
+		String contractid = helper.getDetails().getRecords().get(0).getId();
+		helper.createReplacementOrders(cntr, addon, 10, 2, contractid);
 		helper.finalize();
 	}
 }
