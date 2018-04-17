@@ -12,9 +12,11 @@ import com.salesforce.placeorder.dto.ContractDetails;
 import com.salesforce.placeorder.dto.Contracts;
 import com.salesforce.placeorder.dto.OAuthToken;
 import com.salesforce.placeorder.dto.Order;
+import com.salesforce.placeorder.dto.OrderDetails;
 import com.salesforce.placeorder.dto.OrderItem;
 import com.salesforce.placeorder.dto.OrderItems;
 import com.salesforce.placeorder.dto.Orders;
+import com.salesforce.placeorder.dto.Orderz;
 import com.salesforce.placeorder.util.Constants;
 import com.salesforce.placeorder.util.DateUtil;
 import com.salesforce.placeorder.util.ObjectUtil;
@@ -28,6 +30,9 @@ public class APIHelper {
 	private String pricebook2id;
 	private String pricebookentryid;
 	private ContractDetails details;
+	private OrderDetails orderDetails;
+
+
 	private UserVO user;
 
 	private PlaceOrderAPIClient CLIENT = null;
@@ -106,6 +111,51 @@ public class APIHelper {
 			LogHelper.logger.error(e.getMessage());
 		}
 		// return details;
+	}
+	
+	public void createOrderProducts(OrderVO order, int orderitemCount, String orderid){
+		try {
+			this.orderDetails = createOrderProductsExistingOrder(this.user,
+					this.CLIENT, this.accountid, this.opportunityid,
+					orderid, this.pricebook2id, this.pricebookentryid, order, orderitemCount);
+
+		} catch (InterruptedException | ExecutionException | IOException e) {
+			// TODO Auto-generated catch block
+			LogHelper.logger.error(e.getMessage());
+		}
+	}
+	
+	private static OrderDetails createOrderProductsExistingOrder(
+			UserVO user, PlaceOrderAPIClient client, String accountid,
+			String opportunityid, String orderid, String pricebook2id,
+			String pricebookentryid, OrderVO ordr,
+			int orderItemCount) throws InterruptedException,
+			ExecutionException, IOException {
+		
+		Orderz holder = new Orderz();
+		List<Order> orders = new ArrayList<Order>();
+		Order order = new Order();
+		order.setAttributes(new Attributes().withType("Order"));
+		order.setId(orderid);
+
+		OrderItems orderitemsHolder = new OrderItems();
+		OrderItem item = new OrderItem();
+		item.setAttributes(new Attributes().withType("OrderItem"));
+		item.setPricebookEntryId(pricebookentryid);
+		item.setQuantity(200.0);
+		item.setUnitPrice(10.0);
+		item.setOrderId(orderid);
+
+		for (int i = 0; i < orderItemCount; i++) {
+			orderitemsHolder.getRecords().add(item);
+		}
+		
+		order.setOrderItems(orderitemsHolder);
+		orders.add(order);
+		holder.setRecords(orders);
+		OrderDetails details1 = client.addProductsToExisitingOrder(holder,
+				orderid);
+		return details1;
 	}
 
 	@Override
@@ -385,5 +435,13 @@ public class APIHelper {
 
 	public void setDetails(ContractDetails details) {
 		this.details = details;
+	}
+	
+	public OrderDetails getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(OrderDetails orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 }

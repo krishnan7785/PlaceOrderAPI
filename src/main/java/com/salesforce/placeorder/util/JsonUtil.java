@@ -64,11 +64,15 @@ public class JsonUtil {
 
 	public static String stringify(Object object) {
 		try {
-			return getMapper().writeValueAsString(object);
+			ObjectMapper mapper = getMapper();
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+			String result = mapper.writer().withDefaultPrettyPrinter().writeValueAsString(object);
+			return result;
 		} catch (Throwable t) {
 			throw new RuntimeException(t);
 		}
 	}
+	
 
 	public static String prettyPrint(Object object) {
 		try {

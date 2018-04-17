@@ -18,6 +18,9 @@ import com.salesforce.placeorder.dto.ApiError;
 import com.salesforce.placeorder.dto.ContractDetails;
 import com.salesforce.placeorder.dto.Contracts;
 import com.salesforce.placeorder.dto.OAuthToken;
+import com.salesforce.placeorder.dto.Order;
+import com.salesforce.placeorder.dto.OrderDetails;
+import com.salesforce.placeorder.dto.Orderz;
 import com.salesforce.placeorder.util.JsonUtil;
 
 /**
@@ -184,8 +187,8 @@ public class PlaceOrderAPIClient {
 					+ this.lastToken);
 			requestBuilder.setHeader("Content-Type", "application/json");
 			requestBuilder.setHeader("Accept", "application/json");
-			lastRequest = JsonUtil.prettyPrint(contracts);
-			logger.debug("Last Request:" + JsonUtil.prettyPrint(lastRequest));
+			lastRequest = JsonUtil.stringify(contracts);
+			logger.debug("Last Request:" + lastRequest);
 			requestBuilder.setBody(lastRequest);
 
 			ListenableFuture<Response> f = requestBuilder.execute();
@@ -233,8 +236,8 @@ public class PlaceOrderAPIClient {
 					+ this.lastToken);
 			requestBuilder.setHeader("Content-Type", "application/json");
 			requestBuilder.setHeader("Accept", "application/json");
-			lastRequest = JsonUtil.prettyPrint(contracts);
-			logger.debug("Last Request:" + JsonUtil.prettyPrint(lastRequest));
+			lastRequest = JsonUtil.stringify(contracts);
+			logger.debug("Last Request:" + lastRequest);
 			requestBuilder.setBody(lastRequest);
 
 			ListenableFuture<Response> f = requestBuilder.execute();
@@ -284,7 +287,7 @@ public class PlaceOrderAPIClient {
 					"application/json; charset=UTF-8");
 			requestBuilder.setHeader("Accept", "application/json");
 			lastRequest = JsonUtil.stringify(contracts);
-			logger.debug("Last Request:" + JsonUtil.prettyPrint(lastRequest));
+			logger.debug("Last Request:" + lastRequest);
 			requestBuilder.setBody(lastRequest);
 
 			ListenableFuture<Response> f = requestBuilder.execute();
@@ -307,6 +310,57 @@ public class PlaceOrderAPIClient {
 
 			result = JsonUtil.fromString(r.getResponseBody(),
 					ContractDetails.class);
+			lastResponse = JsonUtil.prettyPrint(result);
+			logger.debug("Login Result: " + lastResponse);
+
+		} finally {
+
+		}
+
+		return result;
+	}
+	
+	public OrderDetails addProductsToExisitingOrder(Orderz order,
+			String orderid) throws InterruptedException, ExecutionException,
+			IOException {
+		OrderDetails result;
+		String updateOrdersUrl = instanceUrl + "/services/data/v"
+				+ apiversion + "/commerce/sale/order/" + orderid;
+		asyncHttpClient = getAsyncHttpClient();
+
+		try {
+			BoundRequestBuilder requestBuilder = asyncHttpClient
+					.preparePatch(updateOrdersUrl);
+			logger.debug("Access Token :" + this.lastToken);
+			requestBuilder.setHeader("Authorization", "Bearer "
+					+ this.lastToken);
+			requestBuilder.setHeader("Content-Type",
+					"application/json; charset=UTF-8");
+			requestBuilder.setHeader("Accept", "application/json");
+			lastRequest = JsonUtil.stringify(order);
+			logger.debug("Last Request:" + lastRequest);
+			requestBuilder.setBody(lastRequest);
+
+			ListenableFuture<Response> f = requestBuilder.execute();
+			Response r = f.get();
+			int status = r.getStatusCode();
+			logger.debug("Current Status" + status);
+			if (status != HttpStatus.OK) // 201 = Created
+			{
+				String statusText = r.getStatusText();
+				ApiError error = JsonUtil.fromString(r.getResponseBody(),
+						ApiError.class);
+				lastError = JsonUtil.prettyPrint(error);
+				logger.error("Error calling webservice, status is: " + status
+						+ " " + statusText);
+				logger.error("Error calling webservice, error message is: "
+						+ lastError);
+
+				return null;
+			}
+
+			result = JsonUtil.fromString(r.getResponseBody(),
+					OrderDetails.class);
 			lastResponse = JsonUtil.prettyPrint(result);
 			logger.debug("Login Result: " + lastResponse);
 
