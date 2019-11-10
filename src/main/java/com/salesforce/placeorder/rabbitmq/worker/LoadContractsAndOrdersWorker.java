@@ -31,7 +31,7 @@ import com.salesforce.placeorder.vo.UserVO;
 public class LoadContractsAndOrdersWorker {
 	final static Logger logger = LoggerFactory.getLogger(LoadContractsAndOrdersWorker.class);
 
-	public static void main() {
+	public static void main(String args[]) {
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
 			factory.setUri(System.getenv("CLOUDAMQP_URL"));
