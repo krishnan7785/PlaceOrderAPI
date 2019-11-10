@@ -5,10 +5,11 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 
+
 public class PropertiesReader {
 
 	public static enum PROPERTY_TYPE {
-		BUILD, MIGRATION
+		BUILD
 	}
 
 	private final Properties buildProp = new Properties();
@@ -16,7 +17,7 @@ public class PropertiesReader {
 	private PropertiesReader() {
 
 		InputStream in2 = this.getClass().getClassLoader()
-				.getResourceAsStream("src/test/resources/test.properties");
+				.getResourceAsStream("test.properties");
 
 		System.out
 				.println("PropertiesReader: Read build/mapping properties from file");
