@@ -21,7 +21,7 @@ import com.salesforce.placeorder.quartz.jobs.LoadContractAndOrdersJob;
 public class PlaceOrderScheduler {
 	final static Logger logger = LoggerFactory.getLogger(PlaceOrderScheduler.class);
     final static ConnectionFactory factory = new ConnectionFactory();
-	public static void main() {
+	public static void main(String args[]) {
 		try {
 			factory.setUri(System.getenv("CLOUDAMQP_URL"));
 	        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
