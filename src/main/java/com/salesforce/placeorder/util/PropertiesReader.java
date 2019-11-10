@@ -14,7 +14,7 @@ public class PropertiesReader {
 
 	private final Properties buildProp = new Properties();
 
-	private PropertiesReader() {
+	public PropertiesReader() {
 
 		InputStream in2 = this.getClass().getClassLoader()
 				.getResourceAsStream("test.properties");
@@ -36,13 +36,7 @@ public class PropertiesReader {
 		}
 	}
 
-	private static class LazyHolder {
-		private static final PropertiesReader INSTANCE = new PropertiesReader();
-	}
 
-	public static PropertiesReader getInstance() {
-		return LazyHolder.INSTANCE;
-	}
 
 	public String getProperty(PROPERTY_TYPE propType, String key) {
 		switch (propType) {

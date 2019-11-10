@@ -3,7 +3,7 @@ package com.salesforce.placeorder.util;
 import com.salesforce.placeorder.util.PropertiesReader.PROPERTY_TYPE;
 
 public class Constants {
-	private static PropertiesReader _holder = PropertiesReader.getInstance();
+	private static PropertiesReader _holder = new PropertiesReader();
 	public static final String ADMIN_USERNAME = _holder.getProperty(PROPERTY_TYPE.BUILD, "admin.username");
 	public static final String ADMIN_PASSWORD = _holder.getProperty(PROPERTY_TYPE.BUILD, "admin.password");
 
