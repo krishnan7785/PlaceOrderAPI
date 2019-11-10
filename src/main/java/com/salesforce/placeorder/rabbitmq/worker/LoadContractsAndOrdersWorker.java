@@ -45,8 +45,9 @@ public class LoadContractsAndOrdersWorker {
 				QueueingConsumer.Delivery delivery = consumer.nextDelivery(); 
 				if (delivery != null) {
 					String msg = new String(delivery.getBody(), "UTF-8");
-					doWork(msg);
 					logger.info("Message Received: " + msg);
+					doWork(msg);
+					logger.info("Done with Work: " + msg);
 					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 				}
 			}
@@ -112,10 +113,11 @@ public class LoadContractsAndOrdersWorker {
 			String accountid = ObjectUtil.createTestAccount(user, acc);
 			String opportunityid = ObjectUtil.createTestOpportunity(user, opp, accountid);
 			APIHelper helper = new APIHelper();
-
+			logger.info("Initializing PlaceOrder ");
 			helper.initialize(); 
 			helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
 			helper.createOrders(cntr, order,2,1);
+			logger.info("Created Orders");
 			helper.finalize();
 		}catch (Exception e) {
 			// TODO Auto-generated catch block
