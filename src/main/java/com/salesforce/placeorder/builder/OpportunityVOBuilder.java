@@ -2,6 +2,7 @@ package com.salesforce.placeorder.builder;
 
 import com.salesforce.placeorder.vo.OpportunityVO;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class OpportunityVOBuilder
@@ -259,6 +260,7 @@ public class OpportunityVOBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       OpportunityVOBuilder result = (OpportunityVOBuilder)super.clone();
@@ -274,6 +276,7 @@ public class OpportunityVOBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public OpportunityVOBuilder but() {
     return (OpportunityVOBuilder)clone();
   }
@@ -341,7 +344,7 @@ public class OpportunityVOBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }
