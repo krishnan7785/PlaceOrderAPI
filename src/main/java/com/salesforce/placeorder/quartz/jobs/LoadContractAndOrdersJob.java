@@ -14,7 +14,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-@DisallowConcurrentExecution
+
 public class LoadContractAndOrdersJob implements Job {
 
 	final static Logger logger = LoggerFactory.getLogger(LoadContractAndOrdersJob.class);
