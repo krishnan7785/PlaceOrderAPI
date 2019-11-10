@@ -1,14 +1,16 @@
 package com.salesforce.placeorder.quartz.scheduler;
 
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.repeatSecondlyForever;
+import static org.quartz.TriggerBuilder.newTrigger;
+
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.salesforce.placeorder.quartz.jobs.LoadContractAndOrdersJob;
@@ -20,15 +22,16 @@ public class PlaceOrderScheduler {
 		try {
 			factory.setUri(System.getenv("CLOUDAMQP_URL"));
 	        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+
 	        scheduler.start();
-	
-	        JobDetail jobDetail = JobBuilder.newJob(LoadContractAndOrdersJob.class).build();
+
+	        JobDetail jobDetail = newJob(LoadContractAndOrdersJob.class).build();
 	        
-	        Trigger trigger = TriggerBuilder.newTrigger()
+	        Trigger trigger = newTrigger()
 	                .startNow()
-	                .withSchedule(CronScheduleBuilder.cronSchedule("0/15 * * * * ?").withMisfireHandlingInstructionFireAndProceed())
+	                .withSchedule(repeatSecondlyForever(5))
 	                .build();
-	
+
 	        scheduler.scheduleJob(jobDetail, trigger);
 		} 
 		catch (Exception e) {
