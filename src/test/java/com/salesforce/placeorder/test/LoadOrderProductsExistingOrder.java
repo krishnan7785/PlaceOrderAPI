@@ -39,7 +39,7 @@ public class LoadOrderProductsExistingOrder {
 				.withMarkForOppurtunityTeamCreate(true)
 				.withForcastCategory("Omitted").withName(random)
 				.withStage("01 - Identifying an Opportunity")
-				.withCloseDate("4/16/2018")
+				.withCloseDate("4/16/2020")
 				.build();
 		ContractVO cntr = new ContractVOBuilder().withAccountName(random)
 				.withRecordType("Sales").withContractType("New")
@@ -52,7 +52,7 @@ public class LoadOrderProductsExistingOrder {
 				.withBillingLanguage("English").withBillingLastName("Ganesan")
 				.withBillingState("CA").withBillingStreet("1 market Street")
 				.withBillingZip("94105").withBillingLanguageCode("en_US")
-				.withContractStartDate("7/1/2018")
+				.withContractStartDate("7/1/2019")
 				.withContractTerm("36").withOrderPrebillDays("5")
 				.withPaymentTerms("Net 45")
 				.withPaymentType("Check")
@@ -68,7 +68,7 @@ public class LoadOrderProductsExistingOrder {
 				.withShippingZip("94105").withOrderStatus("Draft")
 				.withOrderType("Initial").withCustomerPoRequired("N/A")
 				.withOrderSubtype("New")
-				.withOrderStartDate("7/1/2018")
+				.withOrderStartDate("7/1/2019")
 				.withOrderTerm("12").withPoNumber("12345").withPoAmount("5000")
 				.withEvaluateRamp(false).build();
 		UserVO  user = new UserVOBuilder().withUsername(Constants.ADMIN_USERNAME).withPassword(Constants.ADMIN_PASSWORD).build();

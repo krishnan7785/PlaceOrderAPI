@@ -52,7 +52,7 @@ public class LoadOrdersExisitingContractTest {
 				.withBillingLanguage("English").withBillingLastName("Ganesan")
 				.withBillingState("CA").withBillingStreet("1 market Street")
 				.withBillingZip("94105").withBillingLanguageCode("en_US")
-				.withContractStartDate("7/1/2018")
+				.withContractStartDate("7/1/2019")
 				.withContractTerm("36").withOrderPrebillDays("5")
 				.withPaymentTerms("Net 45")
 				.withPaymentType("Check")
@@ -68,7 +68,7 @@ public class LoadOrdersExisitingContractTest {
 				.withShippingZip("94105").withOrderStatus("Draft")
 				.withOrderType("Initial").withCustomerPoRequired("N/A")
 				.withOrderSubtype("New")
-				.withOrderStartDate("7/1/2018")
+				.withOrderStartDate("7/1/2019")
 				.withOrderTerm("12").withPoNumber("12345").withPoAmount("5000")
 				.withEvaluateRamp(false).build();
 		OrderVO addon = new OrderVOBuilder().withOpportunityName(random)
@@ -78,7 +78,7 @@ public class LoadOrdersExisitingContractTest {
 				.withShippingZip("94105").withOrderStatus("Draft")
 				.withOrderType("Add").withCustomerPoRequired("N/A")
 				.withOrderSubtype("New")
-				.withOrderStartDate("7/1/2018")
+				.withOrderStartDate("7/1/2019")
 				.withOrderTerm("12").withPoNumber("12345").withPoAmount("5000")
 				.withEvaluateRamp(false).build();
 		UserVO  user = new UserVOBuilder().withUsername(Constants.ADMIN_USERNAME).withPassword(Constants.ADMIN_PASSWORD).build();
