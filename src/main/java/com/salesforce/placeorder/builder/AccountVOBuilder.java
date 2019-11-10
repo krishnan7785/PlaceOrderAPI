@@ -2,6 +2,7 @@ package com.salesforce.placeorder.builder;
 
 import com.salesforce.placeorder.vo.AccountVO;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class AccountVOBuilder
@@ -315,6 +316,7 @@ public class AccountVOBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       AccountVOBuilder result = (AccountVOBuilder)super.clone();
@@ -330,6 +332,7 @@ public class AccountVOBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public AccountVOBuilder but() {
     return (AccountVOBuilder)clone();
   }
@@ -409,7 +412,7 @@ public class AccountVOBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }

@@ -2,6 +2,7 @@ package com.salesforce.placeorder.builder;
 
 import com.salesforce.placeorder.vo.ContractVO;
 import javax.annotation.Generated;
+import net.karneim.pojobuilder.GwtIncompatible;
 
 @Generated("PojoBuilder")
 public class ContractVOBuilder
@@ -539,6 +540,7 @@ public class ContractVOBuilder
    * @return the clone
    */
   @Override
+  @GwtIncompatible
   public Object clone() {
     try {
       ContractVOBuilder result = (ContractVOBuilder)super.clone();
@@ -554,6 +556,7 @@ public class ContractVOBuilder
    *
    * @return the clone
    */
+  @GwtIncompatible
   public ContractVOBuilder but() {
     return (ContractVOBuilder)clone();
   }
@@ -681,7 +684,7 @@ public class ContractVOBuilder
     } catch (RuntimeException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new java.lang.reflect.UndeclaredThrowableException(ex);
+      throw new RuntimeException(ex);
     }
   }
 }
