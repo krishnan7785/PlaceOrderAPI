@@ -36,9 +36,9 @@ public class PlaceOrderScheduler {
 	
 	        scheduler.scheduleJob(jobDetail, trigger);
 		} 
-        catch (KeyManagementException | NoSuchAlgorithmException | URISyntaxException | SchedulerException e) {
+		catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 		}
 	}
 }

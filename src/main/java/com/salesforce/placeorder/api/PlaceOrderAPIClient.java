@@ -399,7 +399,7 @@ public class PlaceOrderAPIClient {
 
 	public void closeConnection() {
 
-		try (AsyncHttpClient asyncHttpClient = getAsyncHttpClient()) {
+		try {
 			if (asyncHttpClient != null)
 				asyncHttpClient.close();
 		} catch (IOException e) {

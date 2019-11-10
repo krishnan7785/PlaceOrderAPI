@@ -61,7 +61,7 @@ public class APIHelper {
 					this.accountid, this.opportunityid, this.pricebook2id,
 					this.pricebookentryid, contrct, ordr, 10, 10);
 
-		} catch (InterruptedException | ExecutionException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			LogHelper.logger.error(e.getMessage());
 		}
@@ -75,7 +75,7 @@ public class APIHelper {
 					this.pricebookentryid, contrct, ordr, orderCount,
 					orderItemCount);
 
-		} catch (InterruptedException | ExecutionException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			LogHelper.logger.error(e.getMessage());
 		}
@@ -91,7 +91,7 @@ public class APIHelper {
 					this.pricebookentryid, this.details, ordr, orderCount,
 					orderItemCount);
 
-		} catch (InterruptedException | ExecutionException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			LogHelper.logger.error(e.getMessage());
 		}
@@ -106,7 +106,7 @@ public class APIHelper {
 					contractid, this.pricebook2id, this.pricebookentryid,
 					this.details, ordr, orderCount, orderItemCount);
 
-		} catch (InterruptedException | ExecutionException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			LogHelper.logger.error(e.getMessage());
 		}
@@ -119,7 +119,7 @@ public class APIHelper {
 					this.CLIENT, this.accountid, this.opportunityid,
 					orderid, this.pricebook2id, this.pricebookentryid, order, orderitemCount);
 
-		} catch (InterruptedException | ExecutionException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			LogHelper.logger.error(e.getMessage());
 		}

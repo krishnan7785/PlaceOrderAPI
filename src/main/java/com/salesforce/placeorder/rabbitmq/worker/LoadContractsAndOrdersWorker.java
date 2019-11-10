@@ -120,7 +120,7 @@ public class LoadContractsAndOrdersWorker {
 			helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
 			helper.createOrders(cntr, order,2,1);
 			helper.finalize();
-		}catch (InterruptedException | ExecutionException | IOException e) {
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage());
 		}
