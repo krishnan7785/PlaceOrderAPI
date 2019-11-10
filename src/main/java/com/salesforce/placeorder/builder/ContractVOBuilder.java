@@ -87,7 +87,7 @@ public class ContractVOBuilder
    * Creates a new {@link ContractVOBuilder}.
    */
   public ContractVOBuilder() {
-    self = (ContractVOBuilder)this;
+    self = this;
   }
 
   /**

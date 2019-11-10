@@ -55,7 +55,7 @@ public class AccountVOBuilder
    * Creates a new {@link AccountVOBuilder}.
    */
   public AccountVOBuilder() {
-    self = (AccountVOBuilder)this;
+    self = this;
   }
 
   /**
