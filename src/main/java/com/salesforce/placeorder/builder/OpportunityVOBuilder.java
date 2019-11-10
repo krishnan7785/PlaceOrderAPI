@@ -47,7 +47,7 @@ public class OpportunityVOBuilder
    * Creates a new {@link OpportunityVOBuilder}.
    */
   public OpportunityVOBuilder() {
-    self = (OpportunityVOBuilder)this;
+    self = this;
   }
 
   /**

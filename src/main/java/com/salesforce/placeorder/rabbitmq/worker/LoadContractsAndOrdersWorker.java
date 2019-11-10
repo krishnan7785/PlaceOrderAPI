@@ -1,11 +1,8 @@
 package com.salesforce.placeorder.rabbitmq.worker;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +28,7 @@ import com.salesforce.placeorder.vo.UserVO;
 public class LoadContractsAndOrdersWorker {
 	final static Logger logger = LoggerFactory.getLogger(LoadContractsAndOrdersWorker.class);
 
-	public static void main() {
+	public static void main(String args[]) {
 		try {
 			ConnectionFactory factory = new ConnectionFactory();
 			factory.setUri(System.getenv("CLOUDAMQP_URL"));
@@ -48,8 +45,9 @@ public class LoadContractsAndOrdersWorker {
 				QueueingConsumer.Delivery delivery = consumer.nextDelivery(); 
 				if (delivery != null) {
 					String msg = new String(delivery.getBody(), "UTF-8");
-					doWork(msg);
 					logger.info("Message Received: " + msg);
+					doWork(msg);
+					logger.info("Done with Work: " + msg);
 					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 				}
 			}
@@ -115,12 +113,13 @@ public class LoadContractsAndOrdersWorker {
 			String accountid = ObjectUtil.createTestAccount(user, acc);
 			String opportunityid = ObjectUtil.createTestOpportunity(user, opp, accountid);
 			APIHelper helper = new APIHelper();
-
+			logger.info("Initializing PlaceOrder ");
 			helper.initialize(); 
 			helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
 			helper.createOrders(cntr, order,2,1);
+			logger.info("Created Orders");
 			helper.finalize();
-		}catch (InterruptedException | ExecutionException | IOException e) {
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage());
 		}

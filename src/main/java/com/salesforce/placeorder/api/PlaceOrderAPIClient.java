@@ -18,7 +18,6 @@ import com.salesforce.placeorder.dto.ApiError;
 import com.salesforce.placeorder.dto.ContractDetails;
 import com.salesforce.placeorder.dto.Contracts;
 import com.salesforce.placeorder.dto.OAuthToken;
-import com.salesforce.placeorder.dto.Order;
 import com.salesforce.placeorder.dto.OrderDetails;
 import com.salesforce.placeorder.dto.Orderz;
 import com.salesforce.placeorder.util.JsonUtil;
@@ -399,7 +398,7 @@ public class PlaceOrderAPIClient {
 
 	public void closeConnection() {
 
-		try (AsyncHttpClient asyncHttpClient = getAsyncHttpClient()) {
+		try {
 			if (asyncHttpClient != null)
 				asyncHttpClient.close();
 		} catch (IOException e) {

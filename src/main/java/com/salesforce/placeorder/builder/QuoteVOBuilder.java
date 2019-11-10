@@ -37,7 +37,7 @@ public class QuoteVOBuilder
    * Creates a new {@link QuoteVOBuilder}.
    */
   public QuoteVOBuilder() {
-    self = (QuoteVOBuilder)this;
+    self = this;
   }
 
   /**

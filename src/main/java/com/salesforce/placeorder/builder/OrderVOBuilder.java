@@ -115,7 +115,7 @@ public class OrderVOBuilder
    * Creates a new {@link OrderVOBuilder}.
    */
   public OrderVOBuilder() {
-    self = (OrderVOBuilder)this;
+    self = this;
   }
 
   /**
