@@ -116,7 +116,7 @@ public class LoadContractsAndOrdersWorker {
 			logger.info("Initializing PlaceOrder ");
 			helper.initialize(); 
 			helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
-			helper.createOrders(cntr, order,2,1);
+			helper.createOrders(cntr, order,65,2);
 			logger.info("Created Orders");
 			helper.finalize();
 		}catch (Exception e) {
