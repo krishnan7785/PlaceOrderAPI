@@ -33,14 +33,17 @@ public class PlaceOrderScheduler {
 
 	        scheduler.start();
 
-	        JobDetail jobDetail = newJob(LoadContractAndOrdersJob.class).build();
 	        
+	        JobDetail jobDetail = newJob(LoadContractAndOrdersJob.class).build();
+	        JobDetail jobDetail2 = newJob(LoadOrderProductsExistingOrderJob.class).build();
 	        Trigger trigger = newTrigger()
 	                .startNow()
 	                .withSchedule(repeatSecondlyForever(5))
 	                .build();
 
 	        scheduler.scheduleJob(jobDetail, trigger);
+	        scheduler.scheduleJob(jobDetail2, trigger);
+	        
 		} 
 		catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -62,6 +65,32 @@ public class PlaceOrderScheduler {
 	            channel.queueDeclare(queueName, true, false, false, params);
 
 	            String msg = "LoadContractAndOrdersJob";
+	            byte[] body = msg.getBytes("UTF-8");
+	            channel.basicPublish("", queueName, MessageProperties.PERSISTENT_TEXT_PLAIN, body);
+	            logger.info("Message Sent: " + msg);
+	            connection.close();
+	        }
+	        catch (Exception e) {
+	            logger.error(e.getMessage(), e);
+	        }
+		}
+
+	}
+	
+	public static class LoadOrderProductsExistingOrderJob implements Job {
+
+		@Override
+		public void execute(JobExecutionContext context) throws JobExecutionException {
+			// TODO Auto-generated method stub
+			try {
+	            Connection connection = factory.newConnection();
+	            Channel channel = connection.createChannel();
+	            String queueName = "work-queue-1";
+	            Map<String, Object> params = new HashMap<String, Object>();
+	            params.put("x-ha-policy", "all");
+	            channel.queueDeclare(queueName, true, false, false, params);
+
+	            String msg = "LoadOrderProductsExistingOrderJob";
 	            byte[] body = msg.getBytes("UTF-8");
 	            channel.basicPublish("", queueName, MessageProperties.PERSISTENT_TEXT_PLAIN, body);
 	            logger.info("Message Sent: " + msg);

@@ -29,7 +29,7 @@ public class UserVOBuilder
    * Creates a new {@link UserVOBuilder}.
    */
   public UserVOBuilder() {
-    self = this;
+    self = (UserVOBuilder)this;
   }
 
   /**

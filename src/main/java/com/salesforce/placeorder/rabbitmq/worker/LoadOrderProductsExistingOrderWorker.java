@@ -3,6 +3,7 @@ package com.salesforce.placeorder.rabbitmq.worker;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ import com.salesforce.placeorder.vo.OpportunityVO;
 import com.salesforce.placeorder.vo.OrderVO;
 import com.salesforce.placeorder.vo.UserVO;
 
-public class LoadContractsAndOrdersWorker {
+public class LoadOrderProductsExistingOrderWorker {
 	final static Logger logger = LoggerFactory.getLogger(LoadContractsAndOrdersWorker.class);
 
 	public static void main(String args[]) {
@@ -56,7 +57,7 @@ public class LoadContractsAndOrdersWorker {
 	}
 
 	public static void doWork(String message) {
-		if (message != null && message.equals("LoadContractAndOrdersJob")) {
+		if (message != null && message.equals("LoadOrderProductsExistingOrderJob")) {
 			try {
 				String random = "POAPI-" + UUID.randomUUID().toString();
 				AccountVO acc = new AccountVOBuilder().withName(random).withRecordType("Sales").withNumEmployees("2000")
@@ -75,7 +76,7 @@ public class LoadContractsAndOrdersWorker {
 						.withBillingEmail("kganesan@salesforce.com").withBillingFirstName("Krishnan")
 						.withBillingFrequency("1").withBillingLanguage("English").withBillingLastName("Ganesan")
 						.withBillingState("CA").withBillingStreet("1 market Street").withBillingZip("94105")
-						.withBillingLanguageCode("en_US").withContractStartDate("7/1/2019").withContractTerm("36")
+						.withBillingLanguageCode("en_US").withContractStartDate("7/1/2020").withContractTerm("36")
 						.withOrderPrebillDays("5").withPaymentTerms("Net 45").withPaymentType("Check")
 						.withPriceBook("CPQ - Direct - Commercial - Ohana - WW - USD").withRecordType("Sales")
 						.withShippingCity("San Francisco").withShippingCountry("US")
@@ -84,7 +85,7 @@ public class LoadContractsAndOrdersWorker {
 						.withShippingCity("San Francisco").withShippingCountry("US")
 						.withShippingStreet("1 Market Street").withShippingState("CA").withShippingZip("94105")
 						.withOrderStatus("Draft").withOrderType("Initial").withCustomerPoRequired("N/A")
-						.withOrderSubtype("New").withOrderStartDate("7/1/2019").withOrderTerm("12")
+						.withOrderSubtype("New").withOrderStartDate("7/1/2020").withOrderTerm("12")
 						.withPoNumber("12345").withPoAmount("5000").withEvaluateRamp(false).build();
 				UserVO user = new UserVOBuilder().withUsername(Constants.ADMIN_USERNAME)
 						.withPassword(Constants.ADMIN_PASSWORD).build();
@@ -93,11 +94,11 @@ public class LoadContractsAndOrdersWorker {
 				String accountid = ObjectUtil.createTestAccount(user, acc);
 				String opportunityid = ObjectUtil.createTestOpportunity(user, opp, accountid);
 				APIHelper helper = new APIHelper();
-				logger.info("Initializing PlaceOrder ");
 				helper.initialize();
 				helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
-				helper.createOrders(cntr, order, 65, 2);
-				logger.info("Created Orders");
+				helper.createOrders(cntr, order, 5, 1);
+				String orderid = helper.getDetails().getRecords().get(0).getOrders().getRecords().get(0).getId();
+				helper.createOrderProducts(order, 5, orderid);
 				helper.finalize();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -105,5 +106,4 @@ public class LoadContractsAndOrdersWorker {
 			}
 		}
 	}
-
 }
