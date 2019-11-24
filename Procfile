@@ -1,3 +1,0 @@
-scheduler: java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler
-worker1: java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker
-worker2: java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker
