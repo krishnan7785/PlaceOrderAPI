@@ -9,7 +9,6 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
-		<java.version>1.6</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
@@ -61,6 +60,24 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>2.0.13</version>
+				<configuration>
+					<appName>${heroku.appName}</appName>
+					<jdkVersion>1.8</jdkVersion>
+					<skipTests>true</skipTests>
+					<processTypes>
+						<scheduler>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</scheduler>
+						<worker1>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</worker1>
+						<worker2>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</worker2>
+					</processTypes>
+					<buildpacks>
+						<buildpack>heroku/jvm</buildpack>
+					</buildpacks>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.4</version>
@@ -79,7 +96,6 @@
 				<artifactId>versions-maven-plugin</artifactId>
 				<version>2.7</version>
 				<configuration />
-
 			</plugin>
 		</plugins>
 	</build>
