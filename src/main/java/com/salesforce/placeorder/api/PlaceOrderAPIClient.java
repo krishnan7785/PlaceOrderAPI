@@ -10,9 +10,8 @@ import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 import org.asynchttpclient.ListenableFuture;
 import org.asynchttpclient.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.salesforce.placeorder.api.http.HttpStatus;
 import com.salesforce.placeorder.dto.ApiError;
 import com.salesforce.placeorder.dto.ContractDetails;
@@ -28,7 +27,7 @@ import com.salesforce.placeorder.util.JsonUtil;
  */
 public class PlaceOrderAPIClient {
 
-	final static Logger logger = LoggerFactory
+	final static Logger logger = LogManager
 			.getLogger(PlaceOrderAPIClient.class);
 
 	private AsyncHttpClient asyncHttpClient;

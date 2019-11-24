@@ -14,8 +14,8 @@ import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -24,7 +24,7 @@ import com.rabbitmq.client.MessageProperties;
 
 
 public class PlaceOrderScheduler {
-	final static Logger logger = LoggerFactory.getLogger(PlaceOrderScheduler.class);
+	final static Logger logger = LogManager.getLogger(PlaceOrderScheduler.class);
     final static ConnectionFactory factory = new ConnectionFactory();
 	public static void main(String args[]) {
 		try {
