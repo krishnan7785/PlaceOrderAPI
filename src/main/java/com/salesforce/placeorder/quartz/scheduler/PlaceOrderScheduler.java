@@ -34,15 +34,19 @@ public class PlaceOrderScheduler {
 	        scheduler.start();
 
 	        
-	        JobDetail jobDetail = newJob(LoadContractAndOrdersJob.class).build();
+	        JobDetail jobDetail1 = newJob(LoadContractAndOrdersJob.class).build();
 	        JobDetail jobDetail2 = newJob(LoadOrderProductsExistingOrderJob.class).build();
-	        Trigger trigger = newTrigger()
+	        Trigger trigger1 = newTrigger()
+	                .startNow()
+	                .withSchedule(repeatSecondlyForever(5))
+	                .build();
+	        Trigger trigger2 = newTrigger()
 	                .startNow()
 	                .withSchedule(repeatSecondlyForever(5))
 	                .build();
 
-	        scheduler.scheduleJob(jobDetail, trigger);
-	        scheduler.scheduleJob(jobDetail2, trigger);
+	        scheduler.scheduleJob(jobDetail1, trigger1);
+	        scheduler.scheduleJob(jobDetail2, trigger2);
 	        
 		} 
 		catch (Exception e) {
