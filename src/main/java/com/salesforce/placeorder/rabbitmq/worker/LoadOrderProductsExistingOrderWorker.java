@@ -26,7 +26,7 @@ import com.salesforce.placeorder.vo.OrderVO;
 import com.salesforce.placeorder.vo.UserVO;
 
 public class LoadOrderProductsExistingOrderWorker {
-	final static Logger logger = LogManager.getLogger(LoadContractsAndOrdersWorker.class);
+	final static Logger logger = LogManager.getLogger(LoadOrderProductsExistingOrderWorker.class);
 
 	public static void main(String args[]) {
 		try {
