@@ -59,7 +59,7 @@ public class LoadContractsAndOrdersWorker {
 	public static void doWork(String message) {
 		if (message != null && message.equals("LoadContractAndOrdersJob")) {
 			try {
-				String random = "POAPI-" + UUID.randomUUID().toString();
+				String random = "PODEMO-" + UUID.randomUUID().toString();
 				AccountVO acc = new AccountVOBuilder().withName(random).withRecordType("Sales").withNumEmployees("2000")
 						.withBillingCity("San francisco").withBillingCountry("US").withBillingState("CA")
 						.withBillingStreet("1 Market Street").withBillingZip("94105").withShippingCity("San Francisco")

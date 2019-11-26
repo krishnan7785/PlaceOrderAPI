@@ -23,7 +23,7 @@ import com.salesforce.placeorder.vo.UserVO;
 public class LoadContractAndOrdersTest {
 	@Test
 	public void loadOrdersTest1() throws InterruptedException, ExecutionException, IOException {
-		String random =  "POAPI-"+UUID.randomUUID().toString();
+		String random =  "PODEMO-"+UUID.randomUUID().toString();
 		AccountVO acc = new AccountVOBuilder().withName(random)
 				.withRecordType("Sales").withNumEmployees("2000")
 				.withBillingCity("San francisco").withBillingCountry("US")
