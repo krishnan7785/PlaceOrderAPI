@@ -47,7 +47,28 @@ deploy  to heroku
 mvn heroku:deploy -Dheroku.appName=<App name> -DskipTests=true
 ```
 
-deploy directly using this button [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://git.soma.salesforce.com/kganesan/PlaceOrderAPI)
+deploy directly using this button [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://git.soma.salesforce.com/kganesan/PlaceOrderAPI/)
+
+## Running the Processes
+
+kickstart scheduler Process using
+
+```
+heroku ps:scale scheduler=1
+```
+
+kickstart worker Process 1 using
+
+```
+heroku ps:scale worker1=1
+```
+
+tail app logs using
+
+```
+heroku logs --tail
+```
+
 
 ## Running the tests
 
