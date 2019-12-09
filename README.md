@@ -47,7 +47,7 @@ deploy  to heroku
 mvn heroku:deploy -Dheroku.appName=<App name> -DskipTests=true
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+deploy directly using this button [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://git.soma.salesforce.com/kganesan/PlaceOrderAPI)
 
 ## Running the tests
 

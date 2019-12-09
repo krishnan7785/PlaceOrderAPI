@@ -1,0 +1,15 @@
+{
+    "name": "PlaceOrderAPI",
+    "description": "This api helps to load contracts and orders using java scheduled process running on Heroku",
+    "website": "https://git.soma.salesforce.com/kganesan/PlaceOrderAPI",
+    "repository": "https://git.soma.salesforce.com/kganesan/PlaceOrderAPI",
+    "keywords": [
+        "Heroku",
+        "JAVA",
+        "RABBITMQ",
+        "QUARTZ"
+    ],
+    "addons": [
+        "cloudamqp"
+    ]
+}
