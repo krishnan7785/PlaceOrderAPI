@@ -68,9 +68,12 @@
 					<jdkVersion>1.8</jdkVersion>
 					<skipTests>true</skipTests>
 					<processTypes>
-						<scheduler>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</scheduler>
-						<worker1>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</worker1>
-						<worker2>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</worker2>
+						<scheduler>java $JAVA_OPTS -cp target/classes:target/dependency/*
+							com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</scheduler>
+						<worker1>java $JAVA_OPTS -cp target/classes:target/dependency/*
+							com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</worker1>
+						<worker2>java $JAVA_OPTS -cp target/classes:target/dependency/*
+							com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</worker2>
 					</processTypes>
 					<buildpacks>
 						<buildpack>heroku/jvm</buildpack>
@@ -153,11 +156,8 @@
 			<artifactId>quartz</artifactId>
 			<version>2.1.5</version>
 		</dependency>
-		<!--dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz-jobs</artifactId>
-			<version>2.1.5</version>
-		</dependency-->
+		<!--dependency> <groupId>org.quartz-scheduler</groupId> <artifactId>quartz-jobs</artifactId> 
+			<version>2.1.5</version> </dependency -->
 		<dependency>
 			<groupId>org.asynchttpclient</groupId>
 			<artifactId>async-http-client</artifactId>
@@ -186,11 +186,17 @@
 			<version>2.8.2</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit</artifactId>
+			<version>2.2.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>7.0.0</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 			<version>2.11.2</version>

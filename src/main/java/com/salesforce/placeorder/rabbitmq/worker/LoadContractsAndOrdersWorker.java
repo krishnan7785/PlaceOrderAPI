@@ -1,16 +1,13 @@
 package com.salesforce.placeorder.rabbitmq.worker;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.QueueingConsumer;
 import com.salesforce.placeorder.builder.AccountVOBuilder;
 import com.salesforce.placeorder.builder.ContractVOBuilder;
 import com.salesforce.placeorder.builder.OpportunityVOBuilder;
@@ -27,30 +24,20 @@ import com.salesforce.placeorder.vo.UserVO;
 
 public class LoadContractsAndOrdersWorker {
 	final static Logger logger = LogManager.getLogger(LoadContractsAndOrdersWorker.class);
-
+    static ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 	public static void main(String args[]) {
 		try {
-			ConnectionFactory factory = new ConnectionFactory();
-			factory.setUri(System.getenv("CLOUDAMQP_URL"));
-			Connection connection = factory.newConnection();
-			Channel channel = connection.createChannel();
-			String queueName = "work-queue-1";
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("x-ha-policy", "all");
-			channel.queueDeclare(queueName, true, false, false, params);
-			QueueingConsumer consumer = new QueueingConsumer(channel);
-			channel.basicConsume(queueName, false, consumer);
-
-			while (true) {
-				QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-				if (delivery != null) {
-					String msg = new String(delivery.getBody(), "UTF-8");
-					logger.info("Message Received: " + msg);
-					doWork(msg);
-					logger.info("Done with Work: " + msg);
-					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-				}
-			}
+	        RabbitTemplate rabbitTemplate = ctx.getBean(RabbitTemplate.class);
+	        while (true) {
+	        	logger.debug(" In LoadContractsAndOrdersWorker Checking for message...");
+	        	Message response = rabbitTemplate.receive();
+	            if (response != null) {
+	            	String message = new String(response.getBody(), "UTF-8");
+	            	logger.debug("Spring Recieved:->" + message);
+	            	doWork(message);
+	            	logger.debug("Spring Done with Work:->" + message);
+	            }
+	        }
 		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
