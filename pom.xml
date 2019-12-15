@@ -39,7 +39,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-				<compilerVersion>1.8</compilerVersion>
+					<compilerVersion>1.8</compilerVersion>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
@@ -58,25 +58,14 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>2.0.13</version>
-				<configuration>
-					<appName>${heroku.appName}</appName>
-					<processTypes>
-						<scheduler>java $JAVA_OPTS -cp target/classes:target/dependency/*
-							com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</scheduler>
-						<worker1>java $JAVA_OPTS -cp target/classes:target/dependency/*
-							com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</worker1>
-						<worker2>java $JAVA_OPTS -cp target/classes:target/dependency/*
-							com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</worker2>
-					</processTypes>
-					<buildpacks>
-						<buildpack>heroku/jvm</buildpack>
-					</buildpacks>
-				</configuration>
-			</plugin-->
+			<!--plugin> <groupId>com.heroku.sdk</groupId> <artifactId>heroku-maven-plugin</artifactId> 
+				<version>2.0.13</version> <configuration> <appName>${heroku.appName}</appName> 
+				<processTypes> <scheduler>java $JAVA_OPTS -cp target/classes:target/dependency/* 
+				com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</scheduler> 
+				<worker1>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</worker1> 
+				<worker2>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</worker2> 
+				</processTypes> <buildpacks> <buildpack>heroku/jvm</buildpack> </buildpacks> 
+				</configuration> </plugin -->
 
 			<plugin>
 				<groupId>org.projectlombok</groupId>
@@ -92,15 +81,31 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.4</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<configuration>
+					<assembleDirectory>target</assembleDirectory>
+					<programs>
+						<program>
+							<mainClass>com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</mainClass>
+							<name>scheduler</name>
+						</program>
+						<program>
+							<mainClass>com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</mainClass>
+							<name>worker1</name>
+						</program>
+						<program>
+							<mainClass>com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</mainClass>
+							<name>worker2</name>
+						</program>
+					</programs>
+				</configuration>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
 						<phase>package</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>assemble</goal>
 						</goals>
 					</execution>
 				</executions>
