@@ -42,7 +42,6 @@
 				<compilerVersion>1.8</compilerVersion>
 					<source>1.8</source>
 					<target>1.8</target>
-					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -65,8 +64,6 @@
 				<version>2.0.13</version>
 				<configuration>
 					<appName>${heroku.appName}</appName>
-					<jdkVersion>1.8</jdkVersion>
-					<skipTests>true</skipTests>
 					<processTypes>
 						<scheduler>java $JAVA_OPTS -cp target/classes:target/dependency/*
 							com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</scheduler>
