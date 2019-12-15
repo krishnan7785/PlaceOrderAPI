@@ -58,14 +58,22 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--plugin> <groupId>com.heroku.sdk</groupId> <artifactId>heroku-maven-plugin</artifactId> 
-				<version>2.0.13</version> <configuration> <appName>${heroku.appName}</appName> 
-				<processTypes> <scheduler>java $JAVA_OPTS -cp target/classes:target/dependency/* 
-				com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</scheduler> 
-				<worker1>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</worker1> 
-				<worker2>java $JAVA_OPTS -cp target/classes:target/dependency/* com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</worker2> 
-				</processTypes> <buildpacks> <buildpack>heroku/jvm</buildpack> </buildpacks> 
-				</configuration> </plugin -->
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>2.0.13</version>
+				<configuration>
+					<appName>${heroku.appName}</appName>
+					<processTypes>
+						<scheduler>sh target/bin/scheduler</scheduler>
+						<worker1>sh target/bin/worker1</worker1>
+						<worker2>sh target/bin/worker2</worker2>
+					</processTypes>
+					<buildpacks>
+						<buildpack>heroku/jvm</buildpack>
+					</buildpacks>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.projectlombok</groupId>
