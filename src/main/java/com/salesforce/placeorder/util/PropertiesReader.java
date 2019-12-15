@@ -4,8 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.salesforce.placeorder.helper.LogHelper;
-
+import com.salesforce.placeorder.helper.APIHelper;
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 public class PropertiesReader {
 
 	private Properties _properties = new Properties();
@@ -27,7 +28,7 @@ public class PropertiesReader {
 				throw new FileNotFoundException("property file '" + appFilename + "' not found in the classpath");
 			}
 		}catch(Exception ex) {
-			LogHelper.logger.error(ex.getMessage());
+			log.error(ex.getMessage());
 		}
 	}
 	

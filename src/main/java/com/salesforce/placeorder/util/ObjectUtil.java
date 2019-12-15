@@ -3,8 +3,6 @@ package com.salesforce.placeorder.util;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.util.Strings;
-
-import com.salesforce.placeorder.helper.LogHelper;
 import com.salesforce.placeorder.vo.AccountVO;
 import com.salesforce.placeorder.vo.ContractVO;
 import com.salesforce.placeorder.vo.OpportunityVO;
@@ -13,6 +11,8 @@ import com.salesforce.placeorder.vo.UserVO;
 import com.sforce.soap.partner.SaveResult;
 import com.sforce.soap.partner.sobject.SObject;
 
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 public class ObjectUtil {
 
 	public static SObject[] fetchProduct2(UserVO user, String orderId) {
@@ -86,7 +86,7 @@ public class ObjectUtil {
 			String recname = String.valueOf(obj.getField("Name"));
 			if (recname.equals(name)) {
 				rectypeid = obj.getId();
-				LogHelper.logger.debug("Recordtypeid :" + rectypeid
+				log.debug("Recordtypeid :" + rectypeid
 						+ " Object Name: " + objname);
 				return rectypeid;
 			}
@@ -105,10 +105,10 @@ public class ObjectUtil {
 				new SObject[] { item });
 		for (SaveResult result : results) {
 			if (result.isSuccess())
-				LogHelper.logger.debug("Update Success: " + result.getId());
+				log.debug("Update Success: " + result.getId());
 			else {
 				for (com.sforce.soap.partner.Error error : result.getErrors())
-					LogHelper.logger.error("Update Account Errors :"
+					log.error("Update Account Errors :"
 							+ error.getMessage());
 			}
 		}
@@ -124,10 +124,10 @@ public class ObjectUtil {
 				new SObject[] { item });
 		for (SaveResult result : results) {
 			if (result.isSuccess())
-				LogHelper.logger.debug("Update Success: " + result.getId());
+				log.debug("Update Success: " + result.getId());
 			else {
 				for (com.sforce.soap.partner.Error error : result.getErrors())
-					LogHelper.logger.error("Update Account Errors :"
+					log.error("Update Account Errors :"
 							+ error.getMessage());
 			}
 		}
@@ -143,10 +143,10 @@ public class ObjectUtil {
 				new SObject[] { item });
 		for (SaveResult result : results) {
 			if (result.isSuccess())
-				LogHelper.logger.debug("Update Success: " + result.getId());
+				log.debug("Update Success: " + result.getId());
 			else {
 				for (com.sforce.soap.partner.Error error : result.getErrors())
-					LogHelper.logger.error("Update Opportunity Errors :"
+					log.error("Update Opportunity Errors :"
 							+ error.getMessage());
 			}
 		}
@@ -176,10 +176,10 @@ public class ObjectUtil {
 		SaveResult result = results[0];
 		for (com.sforce.soap.partner.Error error : result.getErrors())
 
-			LogHelper.logger.error("Create Account Errors :"
+			log.error("Create Account Errors :"
 					+ error.getMessage());
 		Assert.assertNotNull(result.getId());
-		LogHelper.logger.debug("Account id: " + result.getId());
+		log.debug("Account id: " + result.getId());
 		return result.getId();
 	}
 
@@ -204,10 +204,10 @@ public class ObjectUtil {
 				new SObject[] { opportunity });
 		SaveResult result = results[0];
 		for (com.sforce.soap.partner.Error error : result.getErrors())
-			LogHelper.logger.error("Create Opportunity Errors :"
+			log.error("Create Opportunity Errors :"
 					+ error.getMessage());
 		Assert.assertNotNull(result.getId());
-		LogHelper.logger.debug("Opportunity id: " + result.getId());
+		log.debug("Opportunity id: " + result.getId());
 		return result.getId();
 	}
 
@@ -231,10 +231,10 @@ public class ObjectUtil {
 				new SObject[] { quote });
 		SaveResult result = results[0];
 		for (com.sforce.soap.partner.Error error : result.getErrors())
-			LogHelper.logger
+			log
 					.error("Create Quote Errors :" + error.getMessage());
 		Assert.assertNotNull(result.getId());
-		LogHelper.logger.debug("Quote id: " + result.getId());
+		log.debug("Quote id: " + result.getId());
 		return result.getId();
 	}
 
@@ -249,10 +249,10 @@ public class ObjectUtil {
 				new SObject[] { order });
 		SaveResult result = results[0];
 		for (com.sforce.soap.partner.Error error : result.getErrors())
-			LogHelper.logger
+			log
 					.error("Update Order Errors :" + error.getMessage());
 		Assert.assertNotNull(result.getId());
-		LogHelper.logger.debug("Order id: " + result.getId());
+		log.debug("Order id: " + result.getId());
 		return result.getId();
 	}
 
@@ -305,10 +305,10 @@ public class ObjectUtil {
 				new SObject[] { contract });
 		SaveResult result = results[0];
 		for (com.sforce.soap.partner.Error error : result.getErrors())
-			LogHelper.logger.error("Create Contract Errors :"
+			log.error("Create Contract Errors :"
 					+ error.getMessage());
 		Assert.assertNotNull(result.getId());
-		LogHelper.logger.debug("Contract id: " + result.getId());
+		log.debug("Contract id: " + result.getId());
 		return result.getId();
 	}
 
@@ -372,10 +372,10 @@ public class ObjectUtil {
 				new SObject[] { item });
 		for (SaveResult result : results) {
 			if (result.isSuccess())
-				LogHelper.logger.debug("Update Success: " + result.getId());
+				log.debug("Update Success: " + result.getId());
 			else {
 				for (com.sforce.soap.partner.Error error : result.getErrors())
-					LogHelper.logger.error("Update Opportunity Errors :"
+					log.error("Update Opportunity Errors :"
 							+ error.getMessage());
 			}
 		}
@@ -393,10 +393,10 @@ public class ObjectUtil {
 				new SObject[] { item });
 		for (SaveResult result : results) {
 			if (result.isSuccess())
-				LogHelper.logger.debug("Update Success: " + result.getId());
+				log.debug("Update Success: " + result.getId());
 			else {
 				for (com.sforce.soap.partner.Error error : result.getErrors())
-					LogHelper.logger.error("Update Opportunity Errors :"
+					log.error("Update Opportunity Errors :"
 							+ error.getMessage());
 			}
 		}
@@ -417,10 +417,10 @@ public class ObjectUtil {
 		SaveResult[] results = ForceUtil.updateSobject(user, forupdate);
 		for (SaveResult result : results) {
 			if (result.isSuccess())
-				LogHelper.logger.debug("Activate Success: " + result.getId());
+				log.debug("Activate Success: " + result.getId());
 			else {
 				for (com.sforce.soap.partner.Error error : result.getErrors())
-					LogHelper.logger.error("Activate Order Errors :"
+					log.error("Activate Order Errors :"
 							+ error.getMessage());
 			}
 		}
@@ -441,10 +441,10 @@ public class ObjectUtil {
 		SaveResult[] results = ForceUtil.updateSobject(user, forupdate);
 		for (SaveResult result : results) {
 			if (result.isSuccess())
-				LogHelper.logger.debug("Activate Success: " + result.getId());
+				log.debug("Activate Success: " + result.getId());
 			else {
 				for (com.sforce.soap.partner.Error error : result.getErrors())
-					LogHelper.logger.error("Activate Contract Errors :"
+					log.error("Activate Contract Errors :"
 							+ error.getMessage());
 			}
 		}
@@ -469,10 +469,10 @@ public class ObjectUtil {
 				new SObject[] { opportunity });
 		SaveResult result = results[0];
 		for (com.sforce.soap.partner.Error error : result.getErrors())
-			LogHelper.logger.error("Create Opportunity Errors :"
+			log.error("Create Opportunity Errors :"
 					+ error.getMessage());
 		Assert.assertNotNull(result.getId());
-		LogHelper.logger.debug("Opportunity id: " + result.getId());
+		log.debug("Opportunity id: " + result.getId());
 		return result.getId();
 	}
 

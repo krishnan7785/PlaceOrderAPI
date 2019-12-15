@@ -10,9 +10,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import com.salesforce.placeorder.helper.LogHelper;
-
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 public class DateUtil {
 	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 	public static final String UI_DATE_FORMAT = "MM/dd/yyyy";
@@ -36,7 +35,7 @@ public class DateUtil {
 		try {
 			return sdf1.parse(date);
 		} catch (ParseException e) {
-			LogHelper.logger.error(e.getMessage(), e.getCause());
+			log.error(e.getMessage(), e.getCause());
 		}
 		return null;
 	}
@@ -58,7 +57,7 @@ public class DateUtil {
 			return sdf2.format(sdf1.parse(date));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage(), e.getCause());
+			log.error(e.getMessage(), e.getCause());
 		}
 		return null;
 	}
