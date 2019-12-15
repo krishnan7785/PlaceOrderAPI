@@ -24,6 +24,9 @@ import com.salesforce.placeorder.vo.ContractVO;
 import com.salesforce.placeorder.vo.OrderVO;
 import com.salesforce.placeorder.vo.UserVO;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class APIHelper {
 	private String accountid;
 	private String opportunityid;
@@ -63,7 +66,7 @@ public class APIHelper {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 
@@ -77,7 +80,7 @@ public class APIHelper {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 		// return details;
 	}
@@ -93,7 +96,7 @@ public class APIHelper {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 		// return details;
 	}
@@ -108,7 +111,7 @@ public class APIHelper {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 		// return details;
 	}
@@ -121,7 +124,7 @@ public class APIHelper {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	
