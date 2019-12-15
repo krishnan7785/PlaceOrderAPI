@@ -37,7 +37,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.8.1</version>
 				<configuration>
 					<compilerVersion>1.8</compilerVersion>
 					<source>1.8</source>
@@ -47,7 +47,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>auto-clean</id>
@@ -91,7 +91,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>1.1.1</version>
+				<version>2.1.0</version>
 				<configuration>
 					<assembleDirectory>target</assembleDirectory>
 					<programs>
@@ -190,13 +190,13 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.10.0.pr3</version>
+			<version>2.10.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.10.0.pr3</version>
+			<version>2.10.1</version>
 		</dependency>
 
 		<dependency>
@@ -208,7 +208,7 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.1.5</version>
+			<version>2.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.asynchttpclient</groupId>
