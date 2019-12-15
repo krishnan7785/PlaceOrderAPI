@@ -3,8 +3,6 @@ package com.salesforce.placeorder.util;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-
-import com.salesforce.placeorder.helper.LogHelper;
 import com.salesforce.placeorder.vo.UserVO;
 import com.sforce.soap.apex.ExecuteAnonymousResult;
 import com.sforce.soap.apex.SoapConnection;
@@ -35,6 +33,8 @@ import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.SessionRenewer;
 
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 public class ForceUtil {
 
 	public static GetUserInfoResult getUserInfo() {
@@ -42,7 +42,7 @@ public class ForceUtil {
 		try {
 			return connection.getUserInfo();
 		} catch (ConnectionException e) {
-			LogHelper.logger.error("User info Error", e.getCause());
+			log.error("User info Error", e.getCause());
 		}
 
 		return null;
@@ -60,7 +60,7 @@ public class ForceUtil {
 			return connection.create(new SObject[] { newobj });
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Sobject creation error", e.getCause());
+			log.error("Sobject creation error", e.getCause());
 		}
 
 		return null;
@@ -77,7 +77,7 @@ public class ForceUtil {
 			return connection.create(new SObject[] { newobj });
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Sobject creation error", e.getCause());
+			log.error("Sobject creation error", e.getCause());
 		}
 
 		return null;
@@ -89,7 +89,7 @@ public class ForceUtil {
 		try {
 			results = connection.delete(ids);
 		} catch (ConnectionException e) {
-			LogHelper.logger.error("Sobject deletion error", e.getCause());
+			log.error("Sobject deletion error", e.getCause());
 		}
 
 		return results;
@@ -101,7 +101,7 @@ public class ForceUtil {
 		try {
 			results = connection.delete(ids);
 		} catch (ConnectionException e) {
-			LogHelper.logger.error("Sobject deletion error", e.getCause());
+			log.error("Sobject deletion error", e.getCause());
 		}
 
 		return results;
@@ -119,10 +119,10 @@ public class ForceUtil {
 			return connection.update(new SObject[] { newobj });
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Sobject update error: "
+			log.error("Sobject update error: "
 					+ e.getStackTrace().toString(), e.getCause());
 		} catch (Exception ex) {
-			LogHelper.logger.error("Sobject update error: "
+			log.error("Sobject update error: "
 					+ ex.getStackTrace().toString(), ex.getCause());
 		}
 
@@ -140,9 +140,9 @@ public class ForceUtil {
 			SObject[] records = qResult.getRecords();
 			return records;
 		} catch (ConnectionException ce) {
-			LogHelper.logger.error(ce.getMessage(), ce.getCause());
+			log.error(ce.getMessage(), ce.getCause());
 		} catch (Exception e) {
-			LogHelper.logger.error(e.getMessage(), e.getCause());
+			log.error(e.getMessage(), e.getCause());
 		}
 		return null;
 	}
@@ -164,7 +164,7 @@ public class ForceUtil {
 			return connection.create(sobjects);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Sobject creation error", e.getCause());
+			log.error("Sobject creation error", e.getCause());
 		}
 
 		return null;
@@ -178,7 +178,7 @@ public class ForceUtil {
 			return connection.create(sobjects);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Sobject creation error", e.getCause());
+			log.error("Sobject creation error", e.getCause());
 		}
 
 		return null;
@@ -192,7 +192,7 @@ public class ForceUtil {
 			return connection.update(sobjects);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Sobject update error", e.getCause());
+			log.error("Sobject update error", e.getCause());
 		}
 
 		return null;
@@ -211,7 +211,7 @@ public class ForceUtil {
 			connection = Connector.newConnection(config);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger
+			log
 					.error("Partner Connection Exception", e.getCause());
 		}
 		return connection;
@@ -230,7 +230,7 @@ public class ForceUtil {
 			connection = Connector.newConnection(config);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger
+			log
 					.error("Partner Connection Exception", e.getCause());
 		}
 		return connection;
@@ -258,7 +258,7 @@ public class ForceUtil {
 			connection = Connector.newConnection(config);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger
+			log
 					.error("Partner Connection Exception", e.getCause());
 		}
 		return connection.getConfig();
@@ -278,7 +278,7 @@ public class ForceUtil {
 			connection = Connector.newConnection(config);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger
+			log
 					.error("Partner Connection Exception", e.getCause());
 		}
 		return connection.getConfig();
@@ -293,8 +293,8 @@ public class ForceUtil {
 		apex.setSessionId(config.getSessionId());
 		apex.setServiceEndpoint(config.getServiceEndpoint().replace("/u/",
 				"/s/"));
-		LogHelper.logger.debug("Apex Session id" + apex.getSessionId());
-		LogHelper.logger.debug("Apex Endpoint Service"
+		log.debug("Apex Session id" + apex.getSessionId());
+		log.debug("Apex Endpoint Service"
 				+ apex.getServiceEndpoint());
 
 		SoapConnection connection = null;
@@ -302,7 +302,7 @@ public class ForceUtil {
 			connection = com.sforce.soap.apex.Connector.newConnection(apex);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Apex Connection Exception", e.getCause());
+			log.error("Apex Connection Exception", e.getCause());
 		}
 		return connection;
 	}
@@ -316,8 +316,8 @@ public class ForceUtil {
 		metadata.setServiceEndpoint(Constants.FORCE_API_ENDPOINT_METADATA);
 		metadata.setReadTimeout(result.getReadTimeout());
 		metadata.setConnectionTimeout(result.getConnectionTimeout());
-		LogHelper.logger.debug("Metadata Session id " + metadata.getSessionId());
-		LogHelper.logger.debug("Metadata Server URL "
+		log.debug("Metadata Session id " + metadata.getSessionId());
+		log.debug("Metadata Server URL "
 				+ metadata.getServiceEndpoint());
 		MetadataConnection connection = null;
 		try {
@@ -325,7 +325,7 @@ public class ForceUtil {
 					.newConnection(metadata);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Metadata Connection Exception",
+			log.error("Metadata Connection Exception",
 					e.getCause());
 		}
 		return connection;
@@ -343,10 +343,10 @@ public class ForceUtil {
 			return connection.login(Constants.ADMIN_USERNAME,
 					Constants.ADMIN_PASSWORD);
 		} catch (LoginFault ex) {
-			LogHelper.logger.error(ex.getMessage(), ex);
+			log.error(ex.getMessage(), ex);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -362,10 +362,10 @@ public class ForceUtil {
 			PartnerConnection connection = Connector.newConnection(config);
 			return connection.login(user.username, user.password);
 		} catch (LoginFault ex) {
-			LogHelper.logger.error(ex.getMessage(), ex);
+			log.error(ex.getMessage(), ex);
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -393,7 +393,7 @@ public class ForceUtil {
 	public static void createCustomObjectMetadata(String objectname) {
 		MetadataConnection metadataConnection = null;
 		if (objectname == null || objectname.length() < 1) {
-			LogHelper.logger.error("Invalid Objectname: " + objectname);
+			log.error("Invalid Objectname: " + objectname);
 			return;
 		}
 		try {
@@ -419,29 +419,29 @@ public class ForceUtil {
 
 			for (com.sforce.soap.metadata.SaveResult r : results) {
 				if (r.isSuccess()) {
-					LogHelper.logger.debug("Created component: "
+					log.debug("Created component: "
 							+ r.getFullName());
 				} else {
-					LogHelper.logger
+					log
 							.error("Errors were encountered while creating "
 									+ r.getFullName());
 					for (Error e : r.getErrors()) {
-						LogHelper.logger.error("Error message: "
+						log.error("Error message: "
 								+ e.getMessage());
-						LogHelper.logger.error("Status code: "
+						log.error("Status code: "
 								+ e.getStatusCode());
 					}
 				}
 			}
 		} catch (ConnectionException ce) {
-			LogHelper.logger.error(ce.getMessage(), ce);
+			log.error(ce.getMessage(), ce);
 		}
 	}
 
 	public static void deleteCustomObjectMetadata(String objectname) {
 		MetadataConnection metadataConnection = null;
 		if (objectname == null || objectname.length() < 1) {
-			LogHelper.logger.error("Invalid Objectname: " + objectname);
+			log.error("Invalid Objectname: " + objectname);
 			return;
 		}
 
@@ -458,22 +458,22 @@ public class ForceUtil {
 
 			for (com.sforce.soap.metadata.DeleteResult r : results) {
 				if (r.isSuccess()) {
-					LogHelper.logger.debug("Deleted component: "
+					log.debug("Deleted component: "
 							+ r.getFullName());
 				} else {
-					LogHelper.logger
+					log
 							.error("Errors were encountered while creating "
 									+ r.getFullName());
 					for (Error e : r.getErrors()) {
-						LogHelper.logger.error("Error message: "
+						log.error("Error message: "
 								+ e.getMessage());
-						LogHelper.logger.error("Status code: "
+						log.error("Status code: "
 								+ e.getStatusCode());
 					}
 				}
 			}
 		} catch (ConnectionException ce) {
-			LogHelper.logger.error(ce.getMessage(), ce);
+			log.error(ce.getMessage(), ce);
 		}
 	}
 
@@ -486,7 +486,7 @@ public class ForceUtil {
 				return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 		return false;
 	}
@@ -499,7 +499,7 @@ public class ForceUtil {
 			if (result != null) {
 				Field[] fields = result.getFields();
 				for (Field f : fields) {
-					LogHelper.logger
+					log
 							.info("###Object FieldName: " + f.getName());
 					if (f.getName().equals(fieldname))
 						return true;
@@ -508,7 +508,7 @@ public class ForceUtil {
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 		return false;
 	}
@@ -536,22 +536,22 @@ public class ForceUtil {
 
 			for (com.sforce.soap.metadata.SaveResult r : results) {
 				if (r.isSuccess()) {
-					LogHelper.logger.debug("Created component: "
+					log.debug("Created component: "
 							+ r.getFullName());
 				} else {
-					LogHelper.logger
+					log
 							.error("Errors were encountered while creating "
 									+ r.getFullName());
 					for (Error e : r.getErrors()) {
-						LogHelper.logger.error("Error message: "
+						log.error("Error message: "
 								+ e.getMessage());
-						LogHelper.logger.error("Status code: "
+						log.error("Status code: "
 								+ e.getStatusCode());
 					}
 				}
 			}
 		} catch (ConnectionException ce) {
-			LogHelper.logger.error(ce.getMessage(), ce);
+			log.error(ce.getMessage(), ce);
 		}
 	}
 
@@ -579,22 +579,22 @@ public class ForceUtil {
 
 			for (com.sforce.soap.metadata.SaveResult r : results) {
 				if (r.isSuccess()) {
-					LogHelper.logger.debug("Created component: "
+					log.debug("Created component: "
 							+ r.getFullName());
 				} else {
-					LogHelper.logger
+					log
 							.error("Errors were encountered while creating "
 									+ r.getFullName());
 					for (Error e : r.getErrors()) {
-						LogHelper.logger.error("Error message: "
+						log.error("Error message: "
 								+ e.getMessage());
-						LogHelper.logger.error("Status code: "
+						log.error("Status code: "
 								+ e.getStatusCode());
 					}
 				}
 			}
 		} catch (ConnectionException ce) {
-			LogHelper.logger.error(ce.getMessage(), ce);
+			log.error(ce.getMessage(), ce);
 		}
 	}
 
@@ -609,22 +609,22 @@ public class ForceUtil {
 
 			for (com.sforce.soap.metadata.DeleteResult r : results) {
 				if (r.isSuccess()) {
-					LogHelper.logger.debug("Deleted component: "
+					log.debug("Deleted component: "
 							+ r.getFullName());
 				} else {
-					LogHelper.logger
+					log
 							.error("Errors were encountered while creating "
 									+ r.getFullName());
 					for (Error e : r.getErrors()) {
-						LogHelper.logger.error("Error message: "
+						log.error("Error message: "
 								+ e.getMessage());
-						LogHelper.logger.error("Status code: "
+						log.error("Status code: "
 								+ e.getStatusCode());
 					}
 				}
 			}
 		} catch (ConnectionException ce) {
-			LogHelper.logger.error(ce.getMessage(), ce);
+			log.error(ce.getMessage(), ce);
 		}
 	}
 
@@ -638,22 +638,22 @@ public class ForceUtil {
 
 			for (com.sforce.soap.metadata.DeleteResult r : results) {
 				if (r.isSuccess()) {
-					LogHelper.logger.debug("Deleted component: "
+					log.debug("Deleted component: "
 							+ r.getFullName());
 				} else {
-					LogHelper.logger
+					log
 							.error("Errors were encountered while creating "
 									+ r.getFullName());
 					for (Error e : r.getErrors()) {
-						LogHelper.logger.error("Error message: "
+						log.error("Error message: "
 								+ e.getMessage());
-						LogHelper.logger.error("Status code: "
+						log.error("Status code: "
 								+ e.getStatusCode());
 					}
 				}
 			}
 		} catch (ConnectionException ce) {
-			LogHelper.logger.error(ce.getMessage(), ce);
+			log.error(ce.getMessage(), ce);
 		}
 	}
 
@@ -683,19 +683,19 @@ public class ForceUtil {
 				if (r.isSuccess()) {
 					System.out.println("Created component: " + r.getFullName());
 				} else {
-					LogHelper.logger
+					log
 							.error("Errors were encountered while creating "
 									+ r.getFullName());
 					for (Error e : r.getErrors()) {
-						LogHelper.logger.error("Error message: "
+						log.error("Error message: "
 								+ e.getMessage());
-						LogHelper.logger.error("Status code: "
+						log.error("Status code: "
 								+ e.getStatusCode());
 					}
 				}
 			}
 		} catch (ConnectionException ex) {
-			LogHelper.logger.error(
+			log.error(
 					"\nFailed to create field, error message was: \n"
 							+ ex.getMessage(), ex);
 		}
@@ -712,14 +712,14 @@ public class ForceUtil {
 			return res;
 		} catch (ConnectionException e) {
 			// TODO Auto-generated catch block
-			LogHelper.logger.error("Connection Error", e.getCause());
+			log.error("Connection Error", e.getCause());
 			res = false;
 		} catch (Exception ex) {
-			LogHelper.logger.error("Anonymous Execute error", ex.getCause());
+			log.error("Anonymous Execute error", ex.getCause());
 			res = false;
 		}
-		LogHelper.logger.debug("Code Block" + codeblock);
-		LogHelper.logger.debug("Result" + result.toString());
+		log.debug("Code Block" + codeblock);
+		log.debug("Result" + result.toString());
 		return res;
 	}
 

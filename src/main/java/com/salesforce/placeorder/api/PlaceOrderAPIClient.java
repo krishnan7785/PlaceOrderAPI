@@ -1,6 +1,9 @@
 package com.salesforce.placeorder.api;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 
 import org.asynchttpclient.AsyncHttpClient;
@@ -10,8 +13,6 @@ import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 import org.asynchttpclient.ListenableFuture;
 import org.asynchttpclient.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import com.salesforce.placeorder.api.http.HttpStatus;
 import com.salesforce.placeorder.dto.ApiError;
 import com.salesforce.placeorder.dto.ContractDetails;
@@ -21,14 +22,14 @@ import com.salesforce.placeorder.dto.OrderDetails;
 import com.salesforce.placeorder.dto.Orderz;
 import com.salesforce.placeorder.util.JsonUtil;
 
+import lombok.extern.log4j.Log4j2;
+
 /**
  * @author kganesan
  * @since 207
  */
+@Log4j2
 public class PlaceOrderAPIClient {
-
-	final static Logger logger = LogManager
-			.getLogger(PlaceOrderAPIClient.class);
 
 	private AsyncHttpClient asyncHttpClient;
 
@@ -148,9 +149,9 @@ public class PlaceOrderAPIClient {
 				ApiError error = JsonUtil.fromString(r.getResponseBody(),
 						ApiError.class);
 				lastError = JsonUtil.prettyPrint(error);
-				logger.error("Error calling webservice, status is: " + status
+				log.error("Error calling webservice, status is: " + status
 						+ " " + statusText);
-				logger.error("Error calling webservice, error message is: "
+				log.error("Error calling webservice, error message is: "
 						+ lastError);
 
 				return null;
@@ -160,8 +161,8 @@ public class PlaceOrderAPIClient {
 			lastResponse = JsonUtil.prettyPrint(result);
 			lastToken = result.getAccessToken();
 			instanceUrl = result.getInstanceUrl();
-			logger.debug("Login Result: " + lastResponse);
-			logger.debug("Access Token from Login: " + lastToken);
+			log.debug("Login Result: " + lastResponse);
+			log.debug("Access Token from Login: " + lastToken);
 
 		} finally {
 
@@ -180,13 +181,13 @@ public class PlaceOrderAPIClient {
 		try {
 			BoundRequestBuilder requestBuilder = asyncHttpClient
 					.preparePost(addContractsUrl);
-			logger.debug("Access Token :" + this.lastToken);
+			log.debug("Access Token :" + this.lastToken);
 			requestBuilder.setHeader("Authorization", "Bearer "
 					+ this.lastToken);
 			requestBuilder.setHeader("Content-Type", "application/json");
 			requestBuilder.setHeader("Accept", "application/json");
 			lastRequest = JsonUtil.stringify(contracts);
-			logger.debug("Last Request:" + lastRequest);
+			log.debug("Last Request:" + lastRequest);
 			requestBuilder.setBody(lastRequest);
 
 			ListenableFuture<Response> f = requestBuilder.execute();
@@ -198,9 +199,9 @@ public class PlaceOrderAPIClient {
 				ApiError error = JsonUtil.fromString(r.getResponseBody(),
 						ApiError.class);
 				lastError = JsonUtil.prettyPrint(error);
-				logger.error("Error calling webservice, status is: " + status
+				log.error("Error calling webservice, status is: " + status
 						+ " " + statusText);
-				logger.error("Error calling webservice, error message is: "
+				log.error("Error calling webservice, error message is: "
 						+ lastError);
 
 				return null;
@@ -209,7 +210,7 @@ public class PlaceOrderAPIClient {
 			result = JsonUtil.fromString(r.getResponseBody(),
 					ContractDetails.class);
 			lastResponse = JsonUtil.prettyPrint(result);
-			logger.debug("Login Result: " + lastResponse);
+			log.debug("Login Result: " + lastResponse);
 
 		} finally {
 
@@ -229,13 +230,13 @@ public class PlaceOrderAPIClient {
 		try {
 			BoundRequestBuilder requestBuilder = asyncHttpClient
 					.preparePatch(updateOrdersUrl);
-			logger.debug("Access Token :" + this.lastToken);
+			log.debug("Access Token :" + this.lastToken);
 			requestBuilder.setHeader("Authorization", "Bearer "
 					+ this.lastToken);
 			requestBuilder.setHeader("Content-Type", "application/json");
 			requestBuilder.setHeader("Accept", "application/json");
 			lastRequest = JsonUtil.stringify(contracts);
-			logger.debug("Last Request:" + lastRequest);
+			log.debug("Last Request:" + lastRequest);
 			requestBuilder.setBody(lastRequest);
 
 			ListenableFuture<Response> f = requestBuilder.execute();
@@ -247,9 +248,9 @@ public class PlaceOrderAPIClient {
 				ApiError error = JsonUtil.fromString(r.getResponseBody(),
 						ApiError.class);
 				lastError = JsonUtil.prettyPrint(error);
-				logger.error("Error calling webservice, status is: " + status
+				log.error("Error calling webservice, status is: " + status
 						+ " " + statusText);
-				logger.error("Error calling webservice, error message is: "
+				log.error("Error calling webservice, error message is: "
 						+ lastError);
 
 				return null;
@@ -258,7 +259,7 @@ public class PlaceOrderAPIClient {
 			result = JsonUtil.fromString(r.getResponseBody(),
 					ContractDetails.class);
 			lastResponse = JsonUtil.prettyPrint(result);
-			logger.debug("Login Result: " + lastResponse);
+			log.debug("Login Result: " + lastResponse);
 
 		} finally {
 
@@ -278,29 +279,29 @@ public class PlaceOrderAPIClient {
 		try {
 			BoundRequestBuilder requestBuilder = asyncHttpClient
 					.preparePatch(updateContractsUrl);
-			logger.debug("Access Token :" + this.lastToken);
+			log.debug("Access Token :" + this.lastToken);
 			requestBuilder.setHeader("Authorization", "Bearer "
 					+ this.lastToken);
 			requestBuilder.setHeader("Content-Type",
 					"application/json; charset=UTF-8");
 			requestBuilder.setHeader("Accept", "application/json");
 			lastRequest = JsonUtil.stringify(contracts);
-			logger.debug("Last Request:" + lastRequest);
+			log.debug("Last Request:" + lastRequest);
 			requestBuilder.setBody(lastRequest);
 
 			ListenableFuture<Response> f = requestBuilder.execute();
 			Response r = f.get();
 			int status = r.getStatusCode();
-			logger.debug("Current Status" + status);
+			log.debug("Current Status" + status);
 			if (status != HttpStatus.OK) // 201 = Created
 			{
 				String statusText = r.getStatusText();
 				ApiError error = JsonUtil.fromString(r.getResponseBody(),
 						ApiError.class);
 				lastError = JsonUtil.prettyPrint(error);
-				logger.error("Error calling webservice, status is: " + status
+				log.error("Error calling webservice, status is: " + status
 						+ " " + statusText);
-				logger.error("Error calling webservice, error message is: "
+				log.error("Error calling webservice, error message is: "
 						+ lastError);
 
 				return null;
@@ -309,7 +310,7 @@ public class PlaceOrderAPIClient {
 			result = JsonUtil.fromString(r.getResponseBody(),
 					ContractDetails.class);
 			lastResponse = JsonUtil.prettyPrint(result);
-			logger.debug("Login Result: " + lastResponse);
+			log.debug("Login Result: " + lastResponse);
 
 		} finally {
 
@@ -329,29 +330,29 @@ public class PlaceOrderAPIClient {
 		try {
 			BoundRequestBuilder requestBuilder = asyncHttpClient
 					.preparePatch(updateOrdersUrl);
-			logger.debug("Access Token :" + this.lastToken);
+			log.debug("Access Token :" + this.lastToken);
 			requestBuilder.setHeader("Authorization", "Bearer "
 					+ this.lastToken);
 			requestBuilder.setHeader("Content-Type",
 					"application/json; charset=UTF-8");
 			requestBuilder.setHeader("Accept", "application/json");
 			lastRequest = JsonUtil.stringify(order);
-			logger.debug("Last Request:" + lastRequest);
+			log.debug("Last Request:" + lastRequest);
 			requestBuilder.setBody(lastRequest);
 
 			ListenableFuture<Response> f = requestBuilder.execute();
 			Response r = f.get();
 			int status = r.getStatusCode();
-			logger.debug("Current Status" + status);
+			log.debug("Current Status" + status);
 			if (status != HttpStatus.OK) // 201 = Created
 			{
 				String statusText = r.getStatusText();
 				ApiError error = JsonUtil.fromString(r.getResponseBody(),
 						ApiError.class);
 				lastError = JsonUtil.prettyPrint(error);
-				logger.error("Error calling webservice, status is: " + status
+				log.error("Error calling webservice, status is: " + status
 						+ " " + statusText);
-				logger.error("Error calling webservice, error message is: "
+				log.error("Error calling webservice, error message is: "
 						+ lastError);
 
 				return null;
@@ -360,7 +361,7 @@ public class PlaceOrderAPIClient {
 			result = JsonUtil.fromString(r.getResponseBody(),
 					OrderDetails.class);
 			lastResponse = JsonUtil.prettyPrint(result);
-			logger.debug("Login Result: " + lastResponse);
+			log.debug("Login Result: " + lastResponse);
 
 		} finally {
 
@@ -369,12 +370,12 @@ public class PlaceOrderAPIClient {
 		return result;
 	}
 
-	private String constructAuthUrl() {
+	private String constructAuthUrl() throws UnsupportedEncodingException {
 		String authUrl = loginUrl
 				+ "/services/oauth2/token?grant_type=password" + "&client_id="
-				+ clientid + "&client_secret=" + clientSecret + "&username="
+				+ URLEncoder.encode(clientid,StandardCharsets.UTF_8.toString()) + "&client_secret=" + clientSecret + "&username="
 				+ username + "&password=" + password;
-		logger.debug("Auth URL: " + authUrl);
+		log.debug("Auth URL: " + authUrl);
 		return authUrl;
 	}
 
@@ -402,7 +403,7 @@ public class PlaceOrderAPIClient {
 				asyncHttpClient.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			logger.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 
 	}

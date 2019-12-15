@@ -14,18 +14,17 @@ import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
 
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class PlaceOrderScheduler {
-	final static Logger logger = LogManager.getLogger(PlaceOrderScheduler.class);
-    final static ConnectionFactory factory = new ConnectionFactory();
+    
+	final static ConnectionFactory factory = new ConnectionFactory();
 	public static void main(String args[]) {
 		try {
 			factory.setUri(System.getenv("CLOUDAMQP_URL"));
@@ -51,7 +50,7 @@ public class PlaceOrderScheduler {
 		} 
 		catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.error(e.getMessage(),e);
+			log.error(e.getMessage(),e);
 		}
 	}
 	
@@ -71,11 +70,11 @@ public class PlaceOrderScheduler {
 	            String msg = "LoadContractAndOrdersJob";
 	            byte[] body = msg.getBytes("UTF-8");
 	            channel.basicPublish("", queueName, MessageProperties.PERSISTENT_TEXT_PLAIN, body);
-	            logger.info("Message Sent: " + msg);
+	            log.info("Message Sent: " + msg);
 	            connection.close();
 	        }
 	        catch (Exception e) {
-	            logger.error(e.getMessage(), e);
+	            log.error(e.getMessage(), e);
 	        }
 		}
 
@@ -97,11 +96,11 @@ public class PlaceOrderScheduler {
 	            String msg = "LoadOrderProductsExistingOrderJob";
 	            byte[] body = msg.getBytes("UTF-8");
 	            channel.basicPublish("", queueName, MessageProperties.PERSISTENT_TEXT_PLAIN, body);
-	            logger.info("Message Sent: " + msg);
+	            log.info("Message Sent: " + msg);
 	            connection.close();
 	        }
 	        catch (Exception e) {
-	            logger.error(e.getMessage(), e);
+	            log.error(e.getMessage(), e);
 	        }
 		}
 

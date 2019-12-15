@@ -1,8 +1,14 @@
 package com.salesforce.placeorder.vo;
 
-import net.karneim.pojobuilder.GeneratePojoBuilder;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@GeneratePojoBuilder(intoPackage = "com.salesforce.placeorder.builder")
+@Builder(toBuilder = true)
+@Setter
+@Getter
+@ToString
 public class UserVO {
 	public String id;
 	public String recordType;

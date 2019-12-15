@@ -3,19 +3,10 @@ package com.salesforce.placeorder.rabbitmq.worker;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
-import com.salesforce.placeorder.builder.AccountVOBuilder;
-import com.salesforce.placeorder.builder.ContractVOBuilder;
-import com.salesforce.placeorder.builder.OpportunityVOBuilder;
-import com.salesforce.placeorder.builder.OrderVOBuilder;
-import com.salesforce.placeorder.builder.UserVOBuilder;
 import com.salesforce.placeorder.helper.APIHelper;
 import com.salesforce.placeorder.util.Constants;
 import com.salesforce.placeorder.util.ObjectUtil;
@@ -25,8 +16,10 @@ import com.salesforce.placeorder.vo.OpportunityVO;
 import com.salesforce.placeorder.vo.OrderVO;
 import com.salesforce.placeorder.vo.UserVO;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class LoadOrderProductsExistingOrderWorker {
-	final static Logger logger = LogManager.getLogger(LoadOrderProductsExistingOrderWorker.class);
 
 	public static void main(String args[]) {
 		try {
@@ -45,14 +38,14 @@ public class LoadOrderProductsExistingOrderWorker {
 				QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 				if (delivery != null) {
 					String msg = new String(delivery.getBody(), "UTF-8");
-					logger.info("Message Received: " + msg);
+					log.info("Message Received: " + msg);
 					doWork(msg);
-					logger.info("Done with Work: " + msg);
+					log.info("Done with Work: " + msg);
 					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 				}
 			}
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			log.debug(e.getMessage());
 		}
 	}
 
@@ -60,35 +53,35 @@ public class LoadOrderProductsExistingOrderWorker {
 		if (message != null && message.equals("LoadOrderProductsExistingOrderJob")) {
 			try {
 				String random = "PODEMO-" + UUID.randomUUID().toString();
-				AccountVO acc = new AccountVOBuilder().withName(random).withRecordType("Sales").withNumEmployees("2000")
-						.withBillingCity("San francisco").withBillingCountry("US").withBillingState("CA")
-						.withBillingStreet("1 Market Street").withBillingZip("94105").withShippingCity("San Francisco")
-						.withShippingCountry("US").withShippingStreet("1 Market Street").withShippingState("CA")
-						.withShippingZip("94105").build();
-				OpportunityVO opp = new OpportunityVOBuilder().withAccountName(random).withType("New Business")
-						.withRecordType("New Business / Add-On").withMarkForOppurtunityTeamCreate(true)
-						.withForcastCategory("Omitted").withName(random).withStage("01 - Identifying an Opportunity")
-						.withCloseDate("4/16/2020").build();
-				ContractVO cntr = new ContractVOBuilder().withAccountName(random).withRecordType("Sales")
-						.withContractType("New").withContractStatus("Draft").withAutoRenewal("No")
-						.withCurrencyISOCode("USD").withBillingCity("San francisco")
-						.withBillingCompanyName("PlaceOrderTest1").withBillingCountry("US")
-						.withBillingEmail("kganesan@salesforce.com").withBillingFirstName("Krishnan")
-						.withBillingFrequency("1").withBillingLanguage("English").withBillingLastName("Ganesan")
-						.withBillingState("CA").withBillingStreet("1 market Street").withBillingZip("94105")
-						.withBillingLanguageCode("en_US").withContractStartDate("7/1/2020").withContractTerm("36")
-						.withOrderPrebillDays("5").withPaymentTerms("Net 45").withPaymentType("Check")
-						.withPriceBook("CPQ - Direct - Commercial - Ohana - WW - USD").withRecordType("Sales")
-						.withShippingCity("San Francisco").withShippingCountry("US")
-						.withShippingStreet("1 Market Street").withShippingState("CA").withShippingZip("94105").build();
-				OrderVO order = new OrderVOBuilder().withOpportunityName(random).withMarkForOrderTeamCreate(true)
-						.withShippingCity("San Francisco").withShippingCountry("US")
-						.withShippingStreet("1 Market Street").withShippingState("CA").withShippingZip("94105")
-						.withOrderStatus("Draft").withOrderType("Initial").withCustomerPoRequired("N/A")
-						.withOrderSubtype("New").withOrderStartDate("7/1/2020").withOrderTerm("12")
-						.withPoNumber("12345").withPoAmount("5000").withEvaluateRamp(false).build();
-				UserVO user = new UserVOBuilder().withUsername(Constants.ADMIN_USERNAME)
-						.withPassword(Constants.ADMIN_PASSWORD).build();
+				AccountVO acc = AccountVO.builder().name(random).recordType("Sales").numEmployees("2000")
+						.billingCity("San francisco").billingCountry("US").billingState("CA")
+						.billingStreet("1 Market Street").billingZip("94105").shippingCity("San Francisco")
+						.shippingCountry("US").shippingStreet("1 Market Street").shippingState("CA")
+						.shippingZip("94105").build();
+				OpportunityVO opp = OpportunityVO.builder().accountName(random).type("New Business")
+						.recordType("New Business / Add-On").markForOppurtunityTeamCreate(true)
+						.forcastCategory("Omitted").name(random).stage("01 - Identifying an Opportunity")
+						.closeDate("4/16/2020").build();
+				ContractVO cntr = ContractVO.builder().accountName(random).recordType("Sales")
+						.contractType("New").contractStatus("Draft").autoRenewal("No")
+						.currencyISOCode("USD").billingCity("San francisco")
+						.billingCompanyName("PlaceOrderTest1").billingCountry("US")
+						.billingEmail("kganesan@salesforce.com").billingFirstName("Krishnan")
+						.billingFrequency("1").billingLanguage("English").billingLastName("Ganesan")
+						.billingState("CA").billingStreet("1 market Street").billingZip("94105")
+						.billingLanguageCode("en_US").contractStartDate("7/1/2020").contractTerm("36")
+						.orderPrebillDays("5").paymentTerms("Net 45").paymentType("Check")
+						.priceBook("CPQ - Direct - Commercial - Ohana - WW - USD").recordType("Sales")
+						.shippingCity("San Francisco").shippingCountry("US")
+						.shippingStreet("1 Market Street").shippingState("CA").shippingZip("94105").build();
+				OrderVO order = OrderVO.builder().opportunityName(random).markForOrderTeamCreate(true)
+						.shippingCity("San Francisco").shippingCountry("US")
+						.shippingStreet("1 Market Street").shippingState("CA").shippingZip("94105")
+						.orderStatus("Draft").orderType("Initial").customerPoRequired("N/A")
+						.orderSubtype("New").orderStartDate("7/1/2020").orderTerm("12")
+						.poNumber("12345").poAmount("5000").evaluateRamp(false).build();
+				UserVO user = UserVO.builder().username(Constants.ADMIN_USERNAME)
+						.password(Constants.ADMIN_PASSWORD).build();
 				String pricebookentryid = Constants.DEFAULT_PRICEBOOKENTRY_ID;
 				String pricebook2id = Constants.DEFAULT_PRODUCT_ID;
 				String accountid = ObjectUtil.createTestAccount(user, acc);
@@ -102,7 +95,7 @@ public class LoadOrderProductsExistingOrderWorker {
 				helper.finalize();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				logger.error(e.getMessage());
+				log.error(e.getMessage());
 			}
 		}
 	}
