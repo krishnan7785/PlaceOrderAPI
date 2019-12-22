@@ -21,10 +21,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class LoadOrderProductsExistingOrderWorker {
 	final static Logger logger = LogManager.getLogger(LoadOrderProductsExistingOrderWorker.class);
-	static ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 
 	public static void main(String args[]) {
+		ClassPathXmlApplicationContext ctx = null;
 		try {
+			ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 			RabbitTemplate rabbitTemplate = ctx.getBean(RabbitTemplate.class);
 			while (true) {
 				logger.debug(" In LoadOrderProductsExistingOrderWorker Checking for message...");
@@ -38,6 +39,27 @@ public class LoadOrderProductsExistingOrderWorker {
 			}
 		} catch (Exception e) {
 			log.debug(e.getMessage());
+		}finally {
+			ctx.close();
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+				@Override
+				public void run() {
+					final java.lang.management.ThreadMXBean threadMXBean = java.lang.management.ManagementFactory
+							.getThreadMXBean();
+					final java.lang.management.ThreadInfo[] threadInfos = threadMXBean
+							.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
+					for (java.lang.management.ThreadInfo threadInfo : threadInfos) {
+						log.debug(threadInfo.getThreadName());
+						final Thread.State state = threadInfo.getThreadState();
+						log.debug("   java.lang.Thread.State: " + state);
+						final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
+						for (final StackTraceElement stackTraceElement : stackTraceElements) {
+							log.debug("        at " + stackTraceElement);
+						}
+						log.debug("\n");
+					}
+				}
+			});
 		}
 	}
 
@@ -85,27 +107,7 @@ public class LoadOrderProductsExistingOrderWorker {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				log.error(e.getMessage());
-			} finally {
-				Runtime.getRuntime().addShutdownHook(new Thread() {
-					@Override
-					public void run() {
-						final java.lang.management.ThreadMXBean threadMXBean = java.lang.management.ManagementFactory
-								.getThreadMXBean();
-						final java.lang.management.ThreadInfo[] threadInfos = threadMXBean
-								.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
-						for (java.lang.management.ThreadInfo threadInfo : threadInfos) {
-							log.debug(threadInfo.getThreadName());
-							final Thread.State state = threadInfo.getThreadState();
-							log.debug("   java.lang.Thread.State: " + state);
-							final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
-							for (final StackTraceElement stackTraceElement : stackTraceElements) {
-								log.debug("        at " + stackTraceElement);
-							}
-							log.debug("\n");
-						}
-					}
-				});
-			}
+			} 
 		}
 	}
 }

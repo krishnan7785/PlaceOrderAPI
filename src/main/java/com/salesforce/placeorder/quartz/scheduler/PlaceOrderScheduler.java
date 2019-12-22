@@ -25,7 +25,6 @@ import lombok.extern.log4j.Log4j2;
 public class PlaceOrderScheduler {
 
 	final static Logger logger = LogManager.getLogger(PlaceOrderScheduler.class);
-	private static ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 
 	public static void main(String args[]) {
 		try {
@@ -72,8 +71,10 @@ public class PlaceOrderScheduler {
 		@Override
 		public void execute(JobExecutionContext context) throws JobExecutionException {
 			// TODO Auto-generated method stub
+			ClassPathXmlApplicationContext ctx = null;
 			try {
 				String msg = "LoadContractAndOrdersJob";
+				ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 				RabbitTemplate rabbitTemplate = ctx.getBean(RabbitTemplate.class);
 				while (true) {
 					String sentimestamp = "Spring Sent at:" + System.currentTimeMillis();
@@ -87,6 +88,9 @@ public class PlaceOrderScheduler {
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
 			}
+			finally {
+				ctx.close();
+			}
 		}
 
 		public static class LoadOrderProductsExistingOrderJob implements Job {
@@ -94,8 +98,10 @@ public class PlaceOrderScheduler {
 			@Override
 			public void execute(JobExecutionContext context) throws JobExecutionException {
 				// TODO Auto-generated method stub
+				ClassPathXmlApplicationContext ctx = null;
 				try {
 					String msg = "LoadOrderProductsExistingOrderJob";
+					ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 					RabbitTemplate rabbitTemplate = ctx.getBean(RabbitTemplate.class);
 					while (true) {
 						String sentimestamp = "Spring Sent at:" + System.currentTimeMillis();
@@ -108,6 +114,8 @@ public class PlaceOrderScheduler {
 					}
 				} catch (Exception e) {
 					logger.error(e.getMessage(), e);
+				}finally {
+					ctx.close();
 				}
 			}
 		}
