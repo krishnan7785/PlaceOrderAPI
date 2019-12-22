@@ -40,7 +40,6 @@ public class LoadOrderProductsExistingOrderWorker {
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 		}finally {
-			ctx.close();
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				@Override
 				public void run() {

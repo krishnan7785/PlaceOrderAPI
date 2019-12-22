@@ -87,9 +87,26 @@ public class PlaceOrderScheduler {
 				}
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
-			}
-			finally {
-				ctx.close();
+			}finally {
+				Runtime.getRuntime().addShutdownHook(new Thread() {
+					@Override
+					public void run() {
+						final java.lang.management.ThreadMXBean threadMXBean = java.lang.management.ManagementFactory
+								.getThreadMXBean();
+						final java.lang.management.ThreadInfo[] threadInfos = threadMXBean
+								.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
+						for (java.lang.management.ThreadInfo threadInfo : threadInfos) {
+							log.debug(threadInfo.getThreadName());
+							final Thread.State state = threadInfo.getThreadState();
+							log.debug("   java.lang.Thread.State: " + state);
+							final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
+							for (final StackTraceElement stackTraceElement : stackTraceElements) {
+								log.debug("        at " + stackTraceElement);
+							}
+							log.debug("\n");
+						}
+					}
+				});
 			}
 		}
 
@@ -115,7 +132,25 @@ public class PlaceOrderScheduler {
 				} catch (Exception e) {
 					logger.error(e.getMessage(), e);
 				}finally {
-					ctx.close();
+					Runtime.getRuntime().addShutdownHook(new Thread() {
+						@Override
+						public void run() {
+							final java.lang.management.ThreadMXBean threadMXBean = java.lang.management.ManagementFactory
+									.getThreadMXBean();
+							final java.lang.management.ThreadInfo[] threadInfos = threadMXBean
+									.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
+							for (java.lang.management.ThreadInfo threadInfo : threadInfos) {
+								log.debug(threadInfo.getThreadName());
+								final Thread.State state = threadInfo.getThreadState();
+								log.debug("   java.lang.Thread.State: " + state);
+								final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
+								for (final StackTraceElement stackTraceElement : stackTraceElements) {
+									log.debug("        at " + stackTraceElement);
+								}
+								log.debug("\n");
+							}
+						}
+					});
 				}
 			}
 		}
