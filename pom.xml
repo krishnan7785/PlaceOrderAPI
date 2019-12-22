@@ -50,11 +50,19 @@
 				<version>3.1.0</version>
 				<executions>
 					<execution>
-						<id>auto-clean</id>
-						<phase>initialize</phase>
+						<id>clean-jar-artifacts</id>
+						<phase>install</phase>
 						<goals>
 							<goal>clean</goal>
 						</goals>
+						<configuration>
+							<excludeDefaultDirectories>true</excludeDefaultDirectories>
+							<filesets>
+								<fileset>
+									<directory>target/dependency/*.jar</directory>
+								</fileset>
+							</filesets>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -140,7 +148,7 @@
 									<pluginExecutionFilter>
 										<groupId>org.apache.maven.plugins</groupId>
 										<artifactId>maven-clean-plugin</artifactId>
-										<versionRange>[2.0,)</versionRange>
+										<versionRange>[3.0,)</versionRange>
 										<goals>
 											<goal>clean</goal>
 										</goals>
