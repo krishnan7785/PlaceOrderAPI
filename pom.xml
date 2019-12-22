@@ -50,19 +50,11 @@
 				<version>3.1.0</version>
 				<executions>
 					<execution>
-						<id>clean-jar-artifacts</id>
-						<phase>install</phase>
+						<id>auto-clean</id>
+						<phase>initialize</phase>
 						<goals>
 							<goal>clean</goal>
 						</goals>
-						<configuration>
-							<excludeDefaultDirectories>true</excludeDefaultDirectories>
-							<filesets>
-								<fileset>
-									<directory>target/dependency/*.jar</directory>
-								</fileset>
-							</filesets>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -105,15 +97,15 @@
 					<programs>
 						<program>
 							<mainClass>com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</mainClass>
-							<name>scheduler</name>
+							<id>scheduler</id>
 						</program>
 						<program>
 							<mainClass>com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</mainClass>
-							<name>worker1</name>
+							<id>worker1</id>
 						</program>
 						<program>
 							<mainClass>com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</mainClass>
-							<name>worker2</name>
+							<id>worker2</id>
 						</program>
 					</programs>
 				</configuration>
