@@ -52,14 +52,16 @@ public class PlaceOrderScheduler {
 					final java.lang.management.ThreadInfo[] threadInfos = threadMXBean
 							.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
 					for (java.lang.management.ThreadInfo threadInfo : threadInfos) {
-						log.debug(threadInfo.getThreadName());
-						final Thread.State state = threadInfo.getThreadState();
-						log.debug("   java.lang.Thread.State: " + state);
-						final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
-						for (final StackTraceElement stackTraceElement : stackTraceElements) {
-							log.debug("        at " + stackTraceElement);
+						if(threadInfo!=null) {
+							log.debug(threadInfo.getThreadName());
+							final Thread.State state = threadInfo.getThreadState();
+							log.debug("   java.lang.Thread.State: " + state);
+							final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
+							for (final StackTraceElement stackTraceElement : stackTraceElements) {
+								log.debug("        at " + stackTraceElement);
+							}
+							log.debug("\n");
 						}
-						log.debug("\n");
 					}
 				}
 			});
@@ -96,14 +98,16 @@ public class PlaceOrderScheduler {
 						final java.lang.management.ThreadInfo[] threadInfos = threadMXBean
 								.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
 						for (java.lang.management.ThreadInfo threadInfo : threadInfos) {
-							log.debug(threadInfo.getThreadName());
-							final Thread.State state = threadInfo.getThreadState();
-							log.debug("   java.lang.Thread.State: " + state);
-							final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
-							for (final StackTraceElement stackTraceElement : stackTraceElements) {
-								log.debug("        at " + stackTraceElement);
+							if(threadInfo!=null) {
+								log.debug(threadInfo.getThreadName());
+								final Thread.State state = threadInfo.getThreadState();
+								log.debug("   java.lang.Thread.State: " + state);
+								final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
+								for (final StackTraceElement stackTraceElement : stackTraceElements) {
+									log.debug("        at " + stackTraceElement);
+								}
+								log.debug("\n");
 							}
-							log.debug("\n");
 						}
 					}
 				});
@@ -140,14 +144,16 @@ public class PlaceOrderScheduler {
 							final java.lang.management.ThreadInfo[] threadInfos = threadMXBean
 									.getThreadInfo(threadMXBean.getAllThreadIds(), 100);
 							for (java.lang.management.ThreadInfo threadInfo : threadInfos) {
-								log.debug(threadInfo.getThreadName());
-								final Thread.State state = threadInfo.getThreadState();
-								log.debug("   java.lang.Thread.State: " + state);
-								final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
-								for (final StackTraceElement stackTraceElement : stackTraceElements) {
-									log.debug("        at " + stackTraceElement);
+								if(threadInfo!=null) {
+									log.debug(threadInfo.getThreadName());
+									final Thread.State state = threadInfo.getThreadState();
+									log.debug("   java.lang.Thread.State: " + state);
+									final StackTraceElement[] stackTraceElements = threadInfo.getStackTrace();
+									for (final StackTraceElement stackTraceElement : stackTraceElements) {
+										log.debug("        at " + stackTraceElement);
+									}
+									log.debug("\n");
 								}
-								log.debug("\n");
 							}
 						}
 					});

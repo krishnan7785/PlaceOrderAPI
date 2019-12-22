@@ -10,7 +10,7 @@
 
     <context:property-placeholder/>
 
-    <bean id="cf" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+    <bean id="cf" name="cf" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
         <constructor-arg><value>#{ T(com.salesforce.placeorder.util.RabbitMQUtil).getConnectionFactory()}</value></constructor-arg>
     </bean>
 
