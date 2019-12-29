@@ -10,8 +10,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class RabbitMessageSender {
-	@Autowired
-	public AmqpTemplate rabbitTemplate;
+	private AmqpTemplate rabbitTemplate;
 	
 	@Value("${spring.rabbitmq.exchange}")
 	private String exchange;
@@ -30,5 +29,14 @@ public class RabbitMessageSender {
 		catch(Exception ex) {
 			log.error(ex.getMessage());
 		}
+	}
+	
+	public AmqpTemplate getRabbitTemplate() {
+		return rabbitTemplate;
+	}
+	
+	@Autowired
+	public void setRabbitTemplate(AmqpTemplate rabbitTemplate) {
+		this.rabbitTemplate = rabbitTemplate;
 	}
 }

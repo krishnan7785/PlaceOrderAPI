@@ -63,7 +63,7 @@ public class RabbitMQConfiguration {
     }
 	
 	@Bean
-	public RabbitMessageSender sender() {
+	public RabbitMessageSender rabbitMessageSender() {
 		return new RabbitMessageSender(rabbitTemplate());
 	}
 

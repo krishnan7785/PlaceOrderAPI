@@ -15,6 +15,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @SpringBootApplication
+@EnableAutoConfiguration
 @ComponentScan(basePackages = {"com.salesforce.placeorder"})
 public class PlaceOrderScheduler {
 
@@ -75,8 +77,15 @@ public class PlaceOrderScheduler {
 	@Component
 	public static class LoadContractAndOrdersJob implements Job {
 
+		private RabbitMessageSender rabbitMessageSender;
+
+		public RabbitMessageSender getRabbitMessageSender() {
+			return rabbitMessageSender;
+		}
 		@Autowired
-		public RabbitMessageSender rabbitMessageSender;
+		public void setRabbitMessageSender(RabbitMessageSender rabbitMessageSender) {
+			this.rabbitMessageSender = rabbitMessageSender;
+		}
 
 		@Override
 		public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -124,8 +133,15 @@ public class PlaceOrderScheduler {
 		@Component
 		public static class LoadOrderProductsExistingOrderJob implements Job {
 
+			private RabbitMessageSender rabbitMessageSender;
+
+			public RabbitMessageSender getRabbitMessageSender() {
+				return rabbitMessageSender;
+			}
 			@Autowired
-			public RabbitMessageSender rabbitMessageSender;
+			public void setRabbitMessageSender(RabbitMessageSender rabbitMessageSender) {
+				this.rabbitMessageSender = rabbitMessageSender;
+			}
 
 			@Override
 			public void execute(JobExecutionContext context) throws JobExecutionException {
