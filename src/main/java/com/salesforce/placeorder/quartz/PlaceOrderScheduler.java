@@ -24,8 +24,8 @@ import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@ComponentScan("com.salesforce.placeorder")
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.salesforce.placeorder"})
 public class PlaceOrderScheduler {
 
 	public static void main(String args[]) {
