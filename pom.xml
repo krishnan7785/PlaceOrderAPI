@@ -108,15 +108,15 @@
 					<assembleDirectory>target</assembleDirectory>
 					<programs>
 						<program>
-							<mainClass>com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler</mainClass>
+							<mainClass>com.salesforce.placeorder.quartz.PlaceOrderScheduler</mainClass>
 							<id>scheduler</id>
 						</program>
 						<program>
-							<mainClass>com.salesforce.placeorder.rabbitmq.worker.LoadContractsAndOrdersWorker</mainClass>
+							<mainClass>com.salesforce.placeorder.rabbitmq.LoadContractsAndOrdersWorker</mainClass>
 							<id>worker1</id>
 						</program>
 						<program>
-							<mainClass>com.salesforce.placeorder.rabbitmq.worker.LoadOrderProductsExistingOrderWorker</mainClass>
+							<mainClass>com.salesforce.placeorder.rabbitmq.LoadOrderProductsExistingOrderWorker</mainClass>
 							<id>worker2</id>
 						</program>
 					</programs>
