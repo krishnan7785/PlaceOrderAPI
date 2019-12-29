@@ -94,10 +94,14 @@
 				<version>2.0.13</version>
 				<configuration>
 					<appName>${heroku.appName}</appName>
+					<includeTarget>false</includeTarget>
+					<includes>
+						<include>${project.build.directory}/${project.build.finalName}.jar</include>
+					</includes>
+					<jdkVersion>${java.version}</jdkVersion>
 					<processTypes>
-						<scheduler>sh target/bin/scheduler</scheduler>
-						<worker1>sh target/bin/worker1</worker1>
-						<worker2>sh target/bin/worker2</worker2>
+						<web>java $JAVA_OPTS -jar
+							${project.build.directory}/${project.build.finalName}.jar</web>
 					</processTypes>
 					<buildpacks>
 						<buildpack>heroku/jvm</buildpack>
@@ -118,36 +122,14 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>2.1.0</version>
-				<configuration>
-					<assembleDirectory>target</assembleDirectory>
-					<programs>
-						<program>
-							<mainClass>com.salesforce.placeorder.quartz.PlaceOrderScheduler</mainClass>
-							<id>scheduler</id>
-						</program>
-						<program>
-							<mainClass>com.salesforce.placeorder.rabbitmq.LoadContractsAndOrdersWorker</mainClass>
-							<id>worker1</id>
-						</program>
-						<program>
-							<mainClass>com.salesforce.placeorder.rabbitmq.LoadOrderProductsExistingOrderWorker</mainClass>
-							<id>worker2</id>
-						</program>
-					</programs>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>assemble</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!--plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>appassembler-maven-plugin</artifactId> 
+				<version>2.1.0</version> <configuration> <assembleDirectory>target</assembleDirectory> 
+				<programs> <program> <mainClass>com.salesforce.placeorder.quartz.PlaceOrderScheduler</mainClass> 
+				<id>scheduler</id> </program> <program> <mainClass>com.salesforce.placeorder.rabbitmq.LoadContractsAndOrdersWorker</mainClass> 
+				<id>worker1</id> </program> <program> <mainClass>com.salesforce.placeorder.rabbitmq.LoadOrderProductsExistingOrderWorker</mainClass> 
+				<id>worker2</id> </program> </programs> </configuration> <executions> <execution> 
+				<phase>package</phase> <goals> <goal>assemble</goal> </goals> </execution> 
+				</executions> </plugin -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
