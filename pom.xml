@@ -22,6 +22,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<full-artifact-name>target/${project.artifactId}-${project.version}.jar</full-artifact-name>
 	</properties>
 
 	<build>
@@ -94,13 +95,13 @@
 				<version>2.0.13</version>
 				<configuration>
 					<appName>${heroku.appName}</appName>
+					<includeTarget>false</includeTarget>
 					<includes>
-						<include>target/PlaceOrderAPI-1.0-SNAPSHOT.jar</include>
+						<include>${basedir}/${full-artifact-name}</include>
 					</includes>
 					<jdkVersion>${java.version}</jdkVersion>
 					<processTypes>
-						<scheduler>java $JAVA_OPTS -jar
-							target/PlaceOrderAPI-1.0-SNAPSHOT.jar --server.port=$PORT $JAR_OPTS</scheduler>
+						<scheduler>java $JAVA_OPTS -jar ${full-artifact-name}</scheduler>
 					</processTypes>
 					<buildpacks>
 						<buildpack>heroku/jvm</buildpack>
