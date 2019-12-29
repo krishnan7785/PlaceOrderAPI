@@ -94,14 +94,13 @@
 				<version>2.0.13</version>
 				<configuration>
 					<appName>${heroku.appName}</appName>
-					<includeTarget>false</includeTarget>
 					<includes>
-						<include>${project.build.directory}/${project.build.finalName}.jar</include>
+						<include>target/PlaceOrderAPI-1.0-SNAPSHOT.jar</include>
 					</includes>
 					<jdkVersion>${java.version}</jdkVersion>
 					<processTypes>
 						<scheduler>java $JAVA_OPTS -jar
-							${project.build.directory}/${project.build.finalName}.jar</scheduler>
+							target/PlaceOrderAPI-1.0-SNAPSHOT.jar --server.port=$PORT $JAR_OPTS</scheduler>
 					</processTypes>
 					<buildpacks>
 						<buildpack>heroku/jvm</buildpack>
