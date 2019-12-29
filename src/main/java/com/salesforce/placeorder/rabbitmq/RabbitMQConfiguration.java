@@ -52,7 +52,7 @@ public class RabbitMQConfiguration {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
         template.setRoutingKey(this.routingkey);
-        template.setQueue(this.queueName);
+        template.setDefaultReceiveQueue(this.queueName);
         return template;
     }
 	
