@@ -89,7 +89,10 @@ public class PlaceOrderScheduler {
 					log.debug(msg);
 					log.debug("\n------------------------------------------------------");
 					byte[] body = msg.getBytes("UTF-8");
-					rabbitMessageSender.send(new Message(body, new MessageProperties()));
+					if(rabbitMessageSender!=null)
+						rabbitMessageSender.send(new Message(body, new MessageProperties()));
+					else
+						throw new RuntimeException("Unable to instantiate rabbitMessage Sender");
 				}
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
@@ -135,7 +138,10 @@ public class PlaceOrderScheduler {
 						log.debug(msg);
 						log.debug("\n------------------------------------------------------");
 						byte[] body = msg.getBytes("UTF-8");
-						rabbitMessageSender.send(new Message(body, new MessageProperties()));
+						if(rabbitMessageSender!=null)
+							rabbitMessageSender.send(new Message(body, new MessageProperties()));
+						else
+							throw new RuntimeException("Unable to instantiate rabbitMessage Sender");
 					}
 				} catch (Exception e) {
 					log.error(e.getMessage(), e);
