@@ -15,6 +15,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
 import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
@@ -60,6 +61,11 @@ public class RabbitMQConfiguration {
     public AmqpAdmin amqpAdmin() {
         return new RabbitAdmin(connectionFactory());
     }
+	
+	@Bean
+	public RabbitMessageSender sender() {
+		return new RabbitMessageSender();
+	}
 
     @Bean
     public Queue queue() {
