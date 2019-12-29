@@ -19,6 +19,10 @@ public class RabbitMessageSender {
 	@Value("${spring.rabbitmq.routingkey}")
 	private String routingkey;
 	
+	public RabbitMessageSender(AmqpTemplate template) {
+		this.rabbitTemplate = template;
+	}
+	
 	public void send(Message message) {
 		try {
 			rabbitTemplate.send(exchange, routingkey, message);
