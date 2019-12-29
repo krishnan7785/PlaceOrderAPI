@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 @Service
 public class RabbitMessageSender {
 	@Autowired
-	private AmqpTemplate rabbitTemplate;
+	public AmqpTemplate rabbitTemplate;
 	
 	@Value("${spring.rabbitmq.exchange}")
 	private String exchange;

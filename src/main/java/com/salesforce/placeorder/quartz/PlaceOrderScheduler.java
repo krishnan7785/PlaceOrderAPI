@@ -76,7 +76,7 @@ public class PlaceOrderScheduler {
 	public static class LoadContractAndOrdersJob implements Job {
 
 		@Autowired
-		RabbitMessageSender rabbitMessageSender;
+		public RabbitMessageSender rabbitMessageSender;
 
 		@Override
 		public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -125,7 +125,7 @@ public class PlaceOrderScheduler {
 		public static class LoadOrderProductsExistingOrderJob implements Job {
 
 			@Autowired
-			RabbitMessageSender rabbitMessageSender;
+			public RabbitMessageSender rabbitMessageSender;
 
 			@Override
 			public void execute(JobExecutionContext context) throws JobExecutionException {
