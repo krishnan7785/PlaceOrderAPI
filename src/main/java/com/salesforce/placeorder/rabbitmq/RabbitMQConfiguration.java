@@ -62,10 +62,10 @@ public class RabbitMQConfiguration {
         return new RabbitAdmin(connectionFactory());
     }
 	
-	@Bean
+	/*@Bean
 	public RabbitMessageSender rabbitMessageSender() {
 		return new RabbitMessageSender(rabbitTemplate());
-	}
+	}*/
 
     @Bean
     public Queue queue() {
