@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import com.salesforce.placeorder.quartz.PlaceOrderScheduler.LoadContractAndOrdersJob.LoadOrderProductsExistingOrderJob;
 import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
 
@@ -24,6 +26,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @SpringBootApplication
+@Service
 public class PlaceOrderScheduler {
 
 	public static void main(String args[]) {
