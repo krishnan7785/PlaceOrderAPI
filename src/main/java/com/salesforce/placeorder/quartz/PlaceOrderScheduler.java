@@ -16,6 +16,7 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import com.salesforce.placeorder.quartz.PlaceOrderScheduler.LoadContractAndOrdersJob.LoadOrderProductsExistingOrderJob;
 import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
@@ -23,6 +24,7 @@ import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
+@ComponentScan("com.salesforce.placeorder")
 @SpringBootApplication
 public class PlaceOrderScheduler {
 
