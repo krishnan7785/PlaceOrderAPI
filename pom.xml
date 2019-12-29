@@ -100,8 +100,8 @@
 					</includes>
 					<jdkVersion>${java.version}</jdkVersion>
 					<processTypes>
-						<web>java $JAVA_OPTS -jar
-							${project.build.directory}/${project.build.finalName}.jar</web>
+						<scheduler>java $JAVA_OPTS -jar
+							${project.build.directory}/${project.build.finalName}.jar</scheduler>
 					</processTypes>
 					<buildpacks>
 						<buildpack>heroku/jvm</buildpack>
