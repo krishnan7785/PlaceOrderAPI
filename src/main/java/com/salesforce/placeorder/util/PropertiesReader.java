@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.salesforce.placeorder.helper.APIHelper;
 import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class PropertiesReader {

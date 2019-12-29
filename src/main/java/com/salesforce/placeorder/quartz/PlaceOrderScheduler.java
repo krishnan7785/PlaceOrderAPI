@@ -1,4 +1,4 @@
-package com.salesforce.placeorder.quartz.scheduler;
+package com.salesforce.placeorder.quartz;
 
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.repeatSecondlyForever;
@@ -13,21 +13,23 @@ import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import com.salesforce.placeorder.quartz.scheduler.PlaceOrderScheduler.LoadContractAndOrdersJob.LoadOrderProductsExistingOrderJob;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
+import com.salesforce.placeorder.quartz.PlaceOrderScheduler.LoadContractAndOrdersJob.LoadOrderProductsExistingOrderJob;
+import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
 
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
+@SpringBootApplication
 public class PlaceOrderScheduler {
-
-	final static Logger logger = LogManager.getLogger(PlaceOrderScheduler.class);
 
 	public static void main(String args[]) {
 		try {
+			SpringApplication.run(PlaceOrderScheduler.class, args);
+
 			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 
 			scheduler.start();
@@ -68,27 +70,27 @@ public class PlaceOrderScheduler {
 		}
 	}
 
+	@Component
 	public static class LoadContractAndOrdersJob implements Job {
+
+		@Autowired
+		RabbitMessageSender rabbitMessageSender;
 
 		@Override
 		public void execute(JobExecutionContext context) throws JobExecutionException {
-			// TODO Auto-generated method stub
-			ClassPathXmlApplicationContext ctx = null;
 			try {
 				String msg = "LoadContractAndOrdersJob";
-				ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-				RabbitTemplate rabbitTemplate = ctx.getBean(RabbitTemplate.class);
 				while (true) {
 					String sentimestamp = "Spring Sent at:" + System.currentTimeMillis();
-					logger.debug(sentimestamp);
-					logger.debug("\n------------------------------------------------------");
-					logger.debug(msg);
-					logger.debug("\n------------------------------------------------------");
+					log.debug(sentimestamp);
+					log.debug("\n------------------------------------------------------");
+					log.debug(msg);
+					log.debug("\n------------------------------------------------------");
 					byte[] body = msg.getBytes("UTF-8");
-					rabbitTemplate.send(new Message(body, new MessageProperties()));
+					rabbitMessageSender.send(new Message(body, new MessageProperties()));
 				}
 			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
+				log.error(e.getMessage(), e);
 			}finally {
 				Runtime.getRuntime().addShutdownHook(new Thread() {
 					@Override
@@ -114,27 +116,27 @@ public class PlaceOrderScheduler {
 			}
 		}
 
+		@Component
 		public static class LoadOrderProductsExistingOrderJob implements Job {
+
+			@Autowired
+			RabbitMessageSender rabbitMessageSender;
 
 			@Override
 			public void execute(JobExecutionContext context) throws JobExecutionException {
-				// TODO Auto-generated method stub
-				ClassPathXmlApplicationContext ctx = null;
 				try {
 					String msg = "LoadOrderProductsExistingOrderJob";
-					ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-					RabbitTemplate rabbitTemplate = ctx.getBean(RabbitTemplate.class);
 					while (true) {
 						String sentimestamp = "Spring Sent at:" + System.currentTimeMillis();
-						logger.debug(sentimestamp);
-						logger.debug("\n------------------------------------------------------");
-						logger.debug(msg);
-						logger.debug("\n------------------------------------------------------");
+						log.debug(sentimestamp);
+						log.debug("\n------------------------------------------------------");
+						log.debug(msg);
+						log.debug("\n------------------------------------------------------");
 						byte[] body = msg.getBytes("UTF-8");
-						rabbitTemplate.send(new Message(body, new MessageProperties()));
+						rabbitMessageSender.send(new Message(body, new MessageProperties()));
 					}
 				} catch (Exception e) {
-					logger.error(e.getMessage(), e);
+					log.error(e.getMessage(), e);
 				}finally {
 					Runtime.getRuntime().addShutdownHook(new Thread() {
 						@Override
