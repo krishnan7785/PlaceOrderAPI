@@ -5,17 +5,21 @@ import org.springframework.context.annotation.Configuration;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
+import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
@@ -61,15 +65,13 @@ public class RabbitMQConfiguration {
     public AmqpAdmin amqpAdmin() {
         return new RabbitAdmin(connectionFactory());
     }
-	
-	/*@Bean
-	public RabbitMessageSender rabbitMessageSender() {
-		return new RabbitMessageSender(rabbitTemplate());
-	}*/
 
     @Bean
     public Queue queue() {
-        return new Queue(this.queueName);
+    	Map<String, Object> args = new HashMap<String, Object>();
+    	String haPolicyValue = "all";
+    	args.put("x-ha-policy", haPolicyValue);
+        return new Queue(this.queueName,true,false,false,args);
     }
     
     @Bean
@@ -81,6 +83,14 @@ public class RabbitMQConfiguration {
 	Binding binding(Queue queue, DirectExchange exchange) {
 		return BindingBuilder.bind(queue).to(exchange).with(routingkey);
 	}
+    
+    @Bean
+    public RabbitListenerContainerFactory<SimpleMessageListenerContainer> prefetchTenRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setPrefetchCount(10);
+        return factory;
+    }
 	
 	private static String getEnvironment(String name) {
         final String env = System.getenv(name);

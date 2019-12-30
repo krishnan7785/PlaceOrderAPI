@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class LoadContractsAndOrdersWorker {
 	
-	@RabbitListener(queues = "${spring.rabbitmq.queue}")
+	@RabbitListener(queues = "${spring.rabbitmq.queue}",containerFactory = "prefetchTenRabbitListenerContainerFactory")
 	public void onMessage(Message message) {
 		try {
 			log.debug("Recieved Message From RabbitMQ: " + message);
