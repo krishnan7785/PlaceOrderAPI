@@ -1,10 +1,14 @@
 package com.salesforce.placeorder.rabbitmq;
 
+import java.io.IOException;
 import java.util.UUID;
+
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import com.rabbitmq.client.Channel;
 import com.salesforce.placeorder.helper.APIHelper;
 import com.salesforce.placeorder.util.Constants;
 import com.salesforce.placeorder.util.ObjectUtil;
@@ -21,13 +25,23 @@ import lombok.extern.log4j.Log4j2;
 public class LoadOrderProductsExistingOrderWorker {
 	
 	@RabbitListener(queues = "${spring.rabbitmq.queue}",containerFactory = "prefetchTenRabbitListenerContainerFactory")
-	public void onMessage(Message message) {
+	public void onMessage(Message message, Channel channel) {
+		boolean hasError = false;
 		try {
 			log.debug("Recieved Message From RabbitMQ: " + message);
 			doWork(new String(message.getBody()));
 		}catch(Exception ex){
 			log.error(ex.getMessage());
+			hasError = true;
 		}finally {
+			if(!hasError) {
+				try {
+					channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					throw new AmqpRejectAndDontRequeueException(e.getCause());
+				}
+			}
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				@Override
 				public void run() {
