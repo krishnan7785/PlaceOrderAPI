@@ -53,7 +53,7 @@ public class QuartzConfiguration {
     public JobDetailFactoryBean loadContractAndOrders() {
         JobDetailFactoryBean jobDetailFactory = new JobDetailFactoryBean();
         jobDetailFactory.setJobClass(LoadContractAndOrdersJob.class);
-        jobDetailFactory.setDurability(true);
+        jobDetailFactory.setDurability(false);
         return jobDetailFactory;
     }
     
