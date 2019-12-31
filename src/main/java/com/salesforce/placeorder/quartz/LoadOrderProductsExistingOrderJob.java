@@ -40,7 +40,7 @@ public class LoadOrderProductsExistingOrderJob implements Job {
 				byte[] body = msg.getBytes("UTF-8");
 				MessageProperties properties = new MessageProperties();
 				properties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
-				properties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+				properties.setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT);
 				if(rabbitMessageSender!=null)
 					rabbitMessageSender.send(new Message(body,properties));
 				else
