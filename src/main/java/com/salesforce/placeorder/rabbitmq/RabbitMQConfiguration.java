@@ -76,6 +76,7 @@ public class RabbitMQConfiguration {
     	Map<String, Object> args = new HashMap<String, Object>();
     	String haPolicyValue = "all";
     	args.put("x-ha-policy", haPolicyValue);
+    	args.put("x-max-length", 50000);
         return new Queue(this.queueName,true,false,false,args);
     }
     
