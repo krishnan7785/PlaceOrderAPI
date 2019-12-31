@@ -15,8 +15,9 @@ public class RabbitMessageSender {
 	@Value("${spring.rabbitmq.exchange}")
 	private String exchange;
 	
-	@Value("${spring.rabbitmq.routingkey}")
-	private String routingkey;
+	
+	@Value("${spring.rabbitmq.queue}")
+	String queueName;
 	
 	@Autowired
 	public RabbitMessageSender(AmqpTemplate template) {
@@ -25,7 +26,7 @@ public class RabbitMessageSender {
 	
 	public void send(Message message) {
 		try {
-			rabbitTemplate.convertAndSend(exchange, routingkey, message);
+			rabbitTemplate.convertAndSend(queueName,message);
 		}
 		catch(Exception ex) {
 			log.error(ex.getMessage());

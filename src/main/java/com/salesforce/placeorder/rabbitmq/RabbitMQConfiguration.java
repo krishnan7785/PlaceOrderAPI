@@ -31,9 +31,6 @@ public class RabbitMQConfiguration {
 
 	@Value("${spring.rabbitmq.exchange}")
 	String exchange;
-
-	@Value("${spring.rabbitmq.routingkey}")
-	private String routingkey;
 	
 	@Bean
     public ConnectionFactory connectionFactory() {
@@ -57,7 +54,6 @@ public class RabbitMQConfiguration {
 	@Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
-        template.setRoutingKey(this.routingkey);
         template.setExchange(this.exchange);
         template.setConnectionFactory(connectionFactory());
         return template;
@@ -71,7 +67,8 @@ public class RabbitMQConfiguration {
 	
 	@Bean
     public AmqpAdmin amqpAdmin() {
-        return new RabbitAdmin(connectionFactory());
+		AmqpAdmin admin = new RabbitAdmin(connectionFactory());
+        return admin;
     }
 
     @Bean
@@ -88,8 +85,8 @@ public class RabbitMQConfiguration {
 	}
     
     @Bean
-	Binding binding(Queue queue, DirectExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with(routingkey);
+	Binding binding() {
+		return BindingBuilder.bind(queue()).to(exchange()).with(this.queueName);
 	}
     
     @Bean
