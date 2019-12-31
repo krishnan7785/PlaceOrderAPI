@@ -64,6 +64,12 @@ public class RabbitMQConfiguration {
     }
 	
 	@Bean
+	public RabbitMessageSender rabbitMessageSender() {
+		RabbitMessageSender sender = new RabbitMessageSender(rabbitTemplate());
+		return sender;
+	}
+	
+	@Bean
     public AmqpAdmin amqpAdmin() {
         return new RabbitAdmin(connectionFactory());
     }
