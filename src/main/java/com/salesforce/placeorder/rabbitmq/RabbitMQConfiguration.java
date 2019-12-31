@@ -58,7 +58,8 @@ public class RabbitMQConfiguration {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
         template.setRoutingKey(this.routingkey);
-        template.setDefaultReceiveQueue(this.queueName);
+        template.setExchange(this.exchange);
+        template.setConnectionFactory(connectionFactory());
         return template;
     }
 	
@@ -77,7 +78,7 @@ public class RabbitMQConfiguration {
     
     @Bean
 	DirectExchange exchange() {
-		return new DirectExchange(this.exchange);
+		return new DirectExchange(this.exchange,true,false);
 	}
     
     @Bean

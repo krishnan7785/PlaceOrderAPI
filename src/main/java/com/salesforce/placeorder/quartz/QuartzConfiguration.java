@@ -57,6 +57,7 @@ public class QuartzConfiguration {
         jobDetailFactory.setDurability(true);
         return jobDetailFactory;
     }
+    
  
     @Bean
     public Properties quartzProperties() throws IOException {
