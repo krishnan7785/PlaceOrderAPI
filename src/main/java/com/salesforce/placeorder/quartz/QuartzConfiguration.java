@@ -44,7 +44,7 @@ public class QuartzConfiguration {
     public CronTriggerFactoryBean loadContractAndOrdersTrigger() {
         CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
         cronTriggerFactoryBean.setJobDetail(loadContractAndOrders().getObject());
-        cronTriggerFactoryBean.setCronExpression("*/10 * * * * *");
+        cronTriggerFactoryBean.setCronExpression("0/10 0 0 ? * * *");
         cronTriggerFactoryBean.setMisfireInstruction(CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
         return cronTriggerFactoryBean;
     }
