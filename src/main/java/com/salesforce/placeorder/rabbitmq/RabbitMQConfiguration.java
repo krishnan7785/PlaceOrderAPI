@@ -59,11 +59,11 @@ public class RabbitMQConfiguration {
         return template;
     }
 	
-	@Bean
+	/*@Bean
 	public RabbitMessageSender rabbitMessageSender() {
 		RabbitMessageSender sender = new RabbitMessageSender(rabbitTemplate());
 		return sender;
-	}
+	}*/
 	
 	@Bean
     public AmqpAdmin amqpAdmin() {
