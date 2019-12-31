@@ -1,5 +1,6 @@
 package com.salesforce.placeorder.quartz;
 
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -13,6 +14,7 @@ import com.salesforce.placeorder.rabbitmq.RabbitMessageSender;
 import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Component
+@DisallowConcurrentExecution
 public class LoadOrderProductsExistingOrderJob implements Job {
 
 	private RabbitMessageSender rabbitMessageSender;
