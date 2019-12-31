@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class LoadOrderProductsExistingOrderWorker {
 	
-	@RabbitListener(queues = "${spring.rabbitmq.queue}",containerFactory = "prefetchTenRabbitListenerContainerFactory")
+	@RabbitListener(queues = "${spring.rabbitmq.queue}",containerFactory = "prefetchRabbitListenerContainerFactory")
 	public void onMessage(Message message, Channel channel) {
 		boolean hasError = false;
 		try {
