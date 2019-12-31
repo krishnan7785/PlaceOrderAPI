@@ -18,6 +18,7 @@ public class RabbitMessageSender {
 	@Value("${spring.rabbitmq.routingkey}")
 	private String routingkey;
 	
+	@Autowired
 	public RabbitMessageSender(AmqpTemplate template) {
 		this.rabbitTemplate = template;
 	}
@@ -35,7 +36,7 @@ public class RabbitMessageSender {
 		return rabbitTemplate;
 	}
 	
-	@Autowired
+	
 	public void setRabbitTemplate(AmqpTemplate rabbitTemplate) {
 		this.rabbitTemplate = rabbitTemplate;
 	}
