@@ -32,12 +32,11 @@ public class QuartzConfiguration {
             throws IOException {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setOverwriteExistingJobs(true);
-        factory.setAutoStartup(true);
         factory.setJobFactory(jobFactory);
         CronTrigger lcotrigger = loadContractAndOrdersTrigger().getObject();
         factory.setTriggers(lcotrigger);
         factory.setQuartzProperties(quartzProperties());
-        log.info("starting jobs....");
+        log.debug("starting jobs....");
         return factory;
     }
     

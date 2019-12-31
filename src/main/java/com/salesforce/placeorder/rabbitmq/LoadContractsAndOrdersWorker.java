@@ -1,6 +1,8 @@
 package com.salesforce.placeorder.rabbitmq;
 
 import java.util.UUID;
+
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -23,10 +25,12 @@ public class LoadContractsAndOrdersWorker {
 	@RabbitListener(queues = "${spring.rabbitmq.queue}",containerFactory = "prefetchRabbitListenerContainerFactory")
 	public void onMessage(Message message) {
 		try {
-			log.debug("Recieved Message From RabbitMQ: " + message);
-			doWork(new String(message.getBody()));
+			String body = new String(message.getBody());
+			log.debug("Recieved Message From RabbitMQ: " + body);
+			doWork(body);
 		}catch(Exception ex){
 			log.error(ex.getMessage());
+			throw new AmqpRejectAndDontRequeueException(ex.getCause());
 		}finally {
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				@Override
@@ -89,11 +93,11 @@ public class LoadContractsAndOrdersWorker {
 				String accountid = ObjectUtil.createTestAccount(user, acc);
 				String opportunityid = ObjectUtil.createTestOpportunity(user, opp, accountid);
 				APIHelper helper = new APIHelper();
-				log.info("Initializing PlaceOrder ");
+				log.debug("Initializing PlaceOrder ");
 				helper.initialize();
 				helper.setUpData(user, accountid, opportunityid, pricebook2id, pricebookentryid);
 				helper.createOrders(cntr, order, 65, 2);
-				log.info("Created Orders");
+				log.debug("Created Orders");
 				helper.finalize();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

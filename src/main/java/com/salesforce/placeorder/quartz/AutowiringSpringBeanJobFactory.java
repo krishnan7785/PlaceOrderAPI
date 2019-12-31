@@ -20,7 +20,7 @@ public final class AutowiringSpringBeanJobFactory extends SpringBeanJobFactory i
     @Override
     protected Object createJobInstance(final TriggerFiredBundle bundle) throws Exception {
         final Object job = super.createJobInstance(bundle);
-        log.info("create job instance");
+        log.debug("create job instance");
         beanFactory.autowireBean(job);
         return job;
     }
