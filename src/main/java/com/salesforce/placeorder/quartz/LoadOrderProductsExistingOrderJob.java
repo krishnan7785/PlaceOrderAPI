@@ -4,6 +4,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,8 +36,11 @@ public class LoadOrderProductsExistingOrderJob implements Job {
 				log.debug(msg);
 				log.debug("\n------------------------------------------------------");
 				byte[] body = msg.getBytes("UTF-8");
+				MessageProperties properties = new MessageProperties();
+				properties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
+				properties.setDeliveryMode(MessageDeliveryMode.PERSISTENT);
 				if(rabbitMessageSender!=null)
-					rabbitMessageSender.send(new Message(body, new MessageProperties()));
+					rabbitMessageSender.send(new Message(body,properties));
 				else
 					throw new RuntimeException("Unable to instantiate rabbitMessage Sender");
 			}

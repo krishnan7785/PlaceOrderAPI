@@ -24,7 +24,7 @@ public class RabbitMessageSender {
 	
 	public void send(Message message) {
 		try {
-			rabbitTemplate.send(exchange, routingkey, message);
+			rabbitTemplate.convertAndSend(exchange, routingkey, message);
 		}
 		catch(Exception ex) {
 			log.error(ex.getMessage());
