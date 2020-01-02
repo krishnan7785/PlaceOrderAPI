@@ -92,6 +92,14 @@ public class QuartzConfiguration {
     @QuartzDataSource
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource quartzDataSource() {
-        return DataSourceBuilder.create().build();
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        String username = System.getenv("JDBC_DATABASE_USERNAME");
+        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+
+        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+        dataSourceBuilder.url(dbUrl);
+        dataSourceBuilder.username(username);
+        dataSourceBuilder.password(password);
+        return dataSourceBuilder.build();
     }
 }
