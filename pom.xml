@@ -109,7 +109,7 @@
 					<jdkVersion>${java.version}</jdkVersion>
 					<processTypes>
 						<scheduler>java $JAVA_OPTS -jar ${full-artifact-name}</scheduler>
-						<release>./mvnw flyway:migrate</release>
+						<release>mvnw flyway:migrate</release>
 					</processTypes>
 					<buildpacks>
 						<buildpack>heroku/jvm</buildpack>
