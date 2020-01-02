@@ -31,22 +31,22 @@ public class LoadContractAndOrdersJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
+	        log.info("Job ** {} ** starting @ {}", context.getJobDetail().getKey().getName(), context.getFireTime());
 			String msg = "LoadContractAndOrdersJob";
-			while (true) {
-				String sentimestamp = "Spring Sent at:" + System.currentTimeMillis();
-				log.debug(sentimestamp);
-				log.debug("\n------------------------------------------------------");
-				log.debug(msg);
-				log.debug("\n------------------------------------------------------");
-				byte[] body = msg.getBytes("UTF-8");
-				MessageProperties properties = new MessageProperties();
-				properties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
-				properties.setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT);
-				if(rabbitMessageSender!=null)
-					rabbitMessageSender.send(new Message(body,properties));
-				else
-					throw new RuntimeException("Unable to instantiate rabbitMessage Sender");
-			}
+			String sentimestamp = "Spring Sent at:" + System.currentTimeMillis();
+			log.debug(sentimestamp);
+			log.debug("\n------------------------------------------------------");
+			log.debug(msg);
+			log.debug("\n------------------------------------------------------");
+			byte[] body = msg.getBytes("UTF-8");
+			MessageProperties properties = new MessageProperties();
+			properties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);
+			properties.setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT);
+			if(rabbitMessageSender!=null)
+				rabbitMessageSender.send(new Message(body,properties));
+			else
+				throw new RuntimeException("Unable to instantiate rabbitMessage Sender");
+			log.info("Job ** {} ** completed.  Next job scheduled @ {}", context.getJobDetail().getKey().getName(), context.getNextFireTime());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}finally {
