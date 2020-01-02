@@ -30,7 +30,7 @@
             <AppenderRef ref="RollingFile" />
         </Root>
 
-        <Logger name="com.salesforce.placeorder" level="trace"></Logger>
+        <Logger name="com.salesforce.placeorder" level="debug"></Logger>
     </Loggers>
 
 </Configuration>
