@@ -11,7 +11,7 @@ import com.salesforce.placeorder.quartz.QuartzConfiguration;
 @Configuration
 public class JobSubmitConfiguration {
     
-	public static final String CRON_EVERY_FIVE_MINUTES = "0 0/5 * ? * * *";
+	public static final String CRON_EVERY_FIFTEEN_SECONDS = "0/15 0 0 ? * * *";
     
     @Bean(name = "loadContractAndOrders")
     public JobDetailFactoryBean jobLoadContractAndOrders() {
@@ -20,6 +20,6 @@ public class JobSubmitConfiguration {
 
     @Bean(name = "loadContractAndOrdersTrigger")
     public CronTriggerFactoryBean triggerLoadContractAndOrders(@Qualifier("loadContractAndOrders") JobDetail jobDetail) {
-        return QuartzConfiguration.createCronTrigger(jobDetail, CRON_EVERY_FIVE_MINUTES, "Class Statistics Trigger");
+        return QuartzConfiguration.createCronTrigger(jobDetail, CRON_EVERY_FIFTEEN_SECONDS, "Class Statistics Trigger");
     }
 }
