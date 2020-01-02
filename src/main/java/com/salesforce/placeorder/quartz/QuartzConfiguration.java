@@ -91,7 +91,7 @@ public class QuartzConfiguration {
     @Bean
     @QuartzDataSource
     @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource datasource() {
+    public DataSource quartzDataSource() {
         return DataSourceBuilder.create().build();
     }
 }
