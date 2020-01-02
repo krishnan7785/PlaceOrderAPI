@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +30,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Configuration
 public class QuartzConfiguration {
-	
+	public static final String CRON_EVERY_FIFTEEN_SECONDS = "0/15 0 0 ? * * *";
+	 
 	private ApplicationContext applicationContext;
     private DataSource dataSource;
 
@@ -52,7 +54,7 @@ public class QuartzConfiguration {
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setOverwriteExistingJobs(true);
         factory.setAutoStartup(true);
-        factory.setDataSource(dataSource);
+        factory.setDataSource(this.dataSource);
         factory.setJobFactory(springBeanJobFactory());
         if (ArrayUtils.isNotEmpty(triggers)) {
             factory.setTriggers(triggers);
@@ -117,5 +119,16 @@ public class QuartzConfiguration {
         factoryBean.setJobClass(jobClass);
         factoryBean.setDurability(true);
         return factoryBean;
+    }
+    
+
+    @Bean(name = "loadContractAndOrdersTrigger")
+    public CronTriggerFactoryBean triggerLoadContractAndOrders(@Qualifier("loadContractAndOrders") JobDetail jobDetail) {
+        return QuartzConfiguration.createCronTrigger(jobDetail, CRON_EVERY_FIFTEEN_SECONDS, "loadContractAndOrdersTrigger");
+    }
+    
+    @Bean(name = "loadContractAndOrders")
+    public JobDetailFactoryBean jobLoadContractAndOrders() {
+        return QuartzConfiguration.createJobDetail(LoadContractAndOrdersJob.class, "Load Contract and Orders Job");
     }
 }
