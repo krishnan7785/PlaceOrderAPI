@@ -22,7 +22,7 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class LoadContractsAndOrdersWorker {
 	
-	@RabbitListener(queues = "${spring.rabbitmq.queue}",containerFactory = "prefetchRabbitListenerContainerFactory")
+	@RabbitListener(queues = "${spring.rabbitmq.queue}")
 	public void onMessage(Message message) {
 		try {
 			String body = new String(message.getBody());

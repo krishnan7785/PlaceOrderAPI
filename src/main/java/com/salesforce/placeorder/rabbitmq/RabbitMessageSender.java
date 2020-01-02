@@ -26,7 +26,9 @@ public class RabbitMessageSender {
 	
 	public void send(Message message) {
 		try {
+			log.debug("In message sender Before:convertandsend");
 			rabbitTemplate.convertAndSend(queueName,message);
+			log.debug("In message sender After:convertandsend");
 		}
 		catch(Exception ex) {
 			log.error(ex.getMessage());

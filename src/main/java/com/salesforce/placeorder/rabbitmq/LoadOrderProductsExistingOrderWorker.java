@@ -7,7 +7,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import com.rabbitmq.client.Channel;
 import com.salesforce.placeorder.helper.APIHelper;
 import com.salesforce.placeorder.util.Constants;
 import com.salesforce.placeorder.util.ObjectUtil;
@@ -23,8 +22,8 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class LoadOrderProductsExistingOrderWorker {
 	
-	@RabbitListener(queues = "${spring.rabbitmq.queue}",containerFactory = "prefetchRabbitListenerContainerFactory")
-	public void onMessage(Message message, Channel channel) {
+	@RabbitListener(queues = "${spring.rabbitmq.queue}")
+	public void onMessage(Message message) {
 		try {
 			String body = new String(message.getBody());
 			log.debug("Recieved Message From RabbitMQ: " + body);
