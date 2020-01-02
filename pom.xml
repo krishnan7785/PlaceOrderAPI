@@ -73,8 +73,8 @@
 				<configuration>
 					<url>${env.JDBC_DATABASE_URL}</url>
 					<locations>
-                        <location>filesystem:src/main/resources/db/migration</location>
-                    </locations>
+						<location>filesystem:src/main/resources/db/migration</location>
+					</locations>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -99,27 +99,40 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--plugin> <groupId>com.heroku.sdk</groupId> <artifactId>heroku-maven-plugin</artifactId> 
+				<version>2.0.13</version> <configuration> <appName>${heroku.appName}</appName> 
+				<includeTarget>false</includeTarget> <includes> <include>${basedir}/${full-artifact-name}</include> 
+				</includes> <jdkVersion>${java.version}</jdkVersion> <processTypes> <scheduler>java 
+				$JAVA_OPTS -jar ${full-artifact-name}</scheduler> <release>mvnw flyway:migrate</release> 
+				</processTypes> <buildpacks> <buildpack>heroku/jvm</buildpack> </buildpacks> 
+				</configuration> </plugin -->
 			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>2.0.13</version>
-				<configuration>
-					<appName>${heroku.appName}</appName>
-					<includeTarget>false</includeTarget>
-					<includes>
-						<include>${basedir}/${full-artifact-name}</include>
-					</includes>
-					<jdkVersion>${java.version}</jdkVersion>
-					<processTypes>
-						<scheduler>java $JAVA_OPTS -jar ${full-artifact-name}</scheduler>
-						<release>mvnw flyway:migrate</release>
-					</processTypes>
-					<buildpacks>
-						<buildpack>heroku/jvm</buildpack>
-					</buildpacks>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.flywaydb</groupId>
+									<artifactId>flyway-core</artifactId>
+									<destFileName>flyway.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.postgresql</groupId>
+									<artifactId>postgresql</artifactId>
+									<destFileName>postgres.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok-maven-plugin</artifactId>
