@@ -72,6 +72,9 @@
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
 					<url>${env.JDBC_DATABASE_URL}</url>
+					<locations>
+                        <location>filesystem:src/main/resources/db/migration</location>
+                    </locations>
 				</configuration>
 			</plugin>
 			<plugin>
