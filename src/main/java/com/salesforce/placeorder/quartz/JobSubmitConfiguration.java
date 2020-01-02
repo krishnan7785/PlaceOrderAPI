@@ -8,6 +8,8 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import com.salesforce.placeorder.quartz.LoadContractAndOrdersJob;
 import com.salesforce.placeorder.quartz.QuartzConfiguration;
+import lombok.extern.log4j.Log4j2;
+@Log4j2
 @Configuration
 public class JobSubmitConfiguration {
     
@@ -20,6 +22,6 @@ public class JobSubmitConfiguration {
 
     @Bean(name = "loadContractAndOrdersTrigger")
     public CronTriggerFactoryBean triggerLoadContractAndOrders(@Qualifier("loadContractAndOrders") JobDetail jobDetail) {
-        return QuartzConfiguration.createCronTrigger(jobDetail, CRON_EVERY_FIFTEEN_SECONDS, "Class Statistics Trigger");
+        return QuartzConfiguration.createCronTrigger(jobDetail, CRON_EVERY_FIFTEEN_SECONDS, "loadContractAndOrdersTrigger");
     }
 }
