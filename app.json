@@ -10,6 +10,8 @@
         "QUARTZ"
     ],
     "addons": [
-        "cloudamqp"
+        "heroku-postgresql",
+        "cloudamqp",
+        "papertrail"
     ]
 }
