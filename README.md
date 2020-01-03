@@ -43,7 +43,7 @@ deploy  to heroku
 mvn heroku:deploy -Dheroku.appName=<App name> -DskipTests=true
 ```
 
-deploy directly using this button [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/krishnan7785/kganesan/PlaceOrderAPI/)
+deploy directly using this button [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/krishnan7785/PlaceOrderAPI/)
 
 ## Running the Processes
 
