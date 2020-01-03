@@ -40,6 +40,12 @@ heroku git:remote -a <app name>
 deploy  to heroku
 
 ```
+git push heroku master
+```
+
+or
+
+```
 mvn heroku:deploy -Dheroku.appName=<App name> -DskipTests=true
 ```
 
