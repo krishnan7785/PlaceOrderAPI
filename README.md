@@ -2,10 +2,6 @@
 
 Provides a REST based client to interact with Salesforce Composite API to Load Contract, Orders and Order Items. The application can run on heroku as a scheduled process.
 
-## Getting Started
-
-Follow this document to install pre-requsites https://salesforce.quip.com/xA45ASkuO2mc and deploy application to heroku.
-
 ### Prerequisites
 
 This is a java and maven based project and will require appropriate versions of JDK and Maven. Also requires a HEROKU CLI to interact with system api on heroku.
@@ -47,7 +43,7 @@ deploy  to heroku
 mvn heroku:deploy -Dheroku.appName=<App name> -DskipTests=true
 ```
 
-deploy directly using this button [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://git.soma.salesforce.com/kganesan/PlaceOrderAPI/)
+deploy directly using this button [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/krishnan7785/kganesan/PlaceOrderAPI/)
 
 ## Running the Processes
 
