@@ -214,7 +214,7 @@
 		<dependency>
 			<groupId>com.force.api</groupId>
 			<artifactId>force-wsc</artifactId>
-			<version>47.0.0</version>
+			<version>52.2.0</version>
 		</dependency>
 
 		<dependency>
